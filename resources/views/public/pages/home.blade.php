@@ -1,39 +1,35 @@
 @extends('public.layouts.app')
 @section('content')
    <section class="relative bg-black">
-    <img src="{{ asset('assets/images/hero.jpg') }}"
+    <img src="{{ asset('public/images/hero.jpg') }}"
          class="absolute inset-0 w-full h-full object-cover opacity-40">
-
-    <div class="relative max-w-7xl mx-auto px-6 py-32 text-center text-white">
-        <h1 class="text-4xl md:text-5xl font-bold mb-4">
-            Professional Website Development Services
-        </h1>
-        <p class="max-w-2xl mx-auto text-lg text-gray-200 mb-8">
-            We provide clear, simple, and straight-to-the-point solutions to businesses worldwide.
-        </p>
-        <a href="#contact"
-           class="inline-block bg-red-600 hover:bg-red-700 px-8 py-3 rounded-lg font-semibold transition">
-            Let us talk
-        </a>
-    </div>
+        <div class="relative max-w-7xl mx-auto px-6 py-32 text-center text-white">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4">
+                Professional Website Development Services
+            </h1>
+            <p class="max-w-2xl mx-auto text-lg text-gray-200 mb-8">
+                We provide clear, simple, and straight-to-the-point solutions to businesses worldwide.
+            </p>
+            <a href="#contact"
+            class="inline-block bg-red-600 hover:bg-red-700 px-8 py-3 rounded-lg font-semibold transition">
+                Let us talk
+            </a>
+        </div>
 </section>
 <section class="py-20 bg-white">
     <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
-
         <div>
-            <img src="{{ asset('assets/images/about.jpg') }}"
+            <img src="{{ asset('public/images/about.jpg') }}"
                  class="rounded-xl shadow-lg">
         </div>
-
         <div>
             <span class="text-red-600 font-semibold uppercase text-sm">Welcome to the Industry</span>
             <h2 class="text-3xl font-bold mt-2 mb-4">About Us</h2>
             <p class="text-gray-600 leading-relaxed">
-                AceWebx is a creative software company based in India. Our team delivers
-                professional Web Development, Mobile App Development, and Digital Marketing services.
+            AceWebX is website development company in india. Our team of skilled professionals offers exceptional Software Development, Web Development, Web Design, Mobile App Development and Digital Marketing services - as well as a results-driven approach and strong ethical values - to long-term relationships with our clients. We pride ourselves on time and cost efficiency as we apply only cutting-edge tactics and methods suited specifically for your preferences or goals - AceWebX truly provides everything your business could ever require to thrive and prosper!
+            </br>AceWebX boasts an international reach with our technology-savvy team in Mohali (India). AceWebX continues to redefine outsourcing solutions by adopting global standard management and delivery techniques for optimal quality results for our client and trust us over time. Our work speaks for itself!
             </p>
         </div>
-
     </div>
 </section>
 <section class="py-16 bg-gray-50">
