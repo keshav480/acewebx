@@ -18,12 +18,15 @@
             <div class="hidden md:flex items-center gap-6">
 
                 <!-- Quick Links (optional) -->
-                <a href="{{ route('admin.dashboard') }}" 
-                   class="text-white text-sm font-medium hover:text-white/80">Dashboard</a>
-                <a href="{{ route('admin.users.index') }}" 
-                   class="text-white text-sm font-medium hover:text-white/80">Users</a>
-                <a href="{{ route('admin.settings') }}" 
-                   class="text-white text-sm font-medium hover:text-white/80">Settings</a>
+              @foreach(config('menu.header') as $item)
+                    <a href="{{ route($item['route']) }}"
+                    class="text-white block px-6 py-2 mt-2 rounded hover:bg-gray-700 ">
+                    @if(isset($item['icon']))
+                        <i class="{{ $item['icon'] }} mr-2"></i>
+                    @endif
+                    {{ $item['title'] }}
+                    </a>
+                @endforeach
 
                 <!-- User Dropdown -->
                 <div class="relative">

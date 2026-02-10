@@ -5,17 +5,14 @@
         </div>
 
         <nav class="mt-6 flex-1">
-            <a href="{{ route('admin.dashboard') }}" 
-               class="block px-6 py-2 mt-2 rounded hover:bg-gray-700 {{ request()->routeIs('admin.dashboard') ? 'bg-gray-700' : '' }}">
-               Dashboard
-            </a>
-            <a href="{{ route('admin.users.index') }}" 
-               class="block px-6 py-2 mt-2 rounded hover:bg-gray-700 {{ request()->routeIs('admin.users.*') ? 'bg-gray-700' : '' }}">
-               Users
-            </a>
-            <a href="{{ route('admin.settings') }}" 
-               class="block px-6 py-2 mt-2 rounded hover:bg-gray-700 {{ request()->routeIs('admin.settings') ? 'bg-gray-700' : '' }}">
-               Settings
-            </a>
+            @foreach(config('menu.items') as $item)
+                    <a href="{{ route($item['route']) }}"
+                    class="block px-6 py-2 mt-2 rounded hover:bg-gray-700 {{ request()->routeIs($item['pattern']) ? 'bg-gray-700' : '' }}">
+                    @if(isset($item['icon']))
+                        <i class="{{ $item['icon'] }} mr-2"></i>
+                    @endif
+                    {{ $item['title'] }}
+                    </a>
+                @endforeach
         </nav>
     </aside>
