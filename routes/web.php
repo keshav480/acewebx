@@ -1,14 +1,29 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
+
+
+
+Route::middleware('guest')->group(function () {
+
+    // Login
+    Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
+    Route::post('login', [LoginController::class, 'login']);
+
+    // Register
+    Route::get('register', [RegisterController::class, 'showRegistrationForm'])->name('register');
+    Route::post('register', [RegisterController::class, 'register']);
+
+});
 
 // Public Home
 Route::get('/', function () {
     return view('public.pages.home');
 });
 
-// Admin Routes
-Route::prefix('ace-admin')->name('admin.')->group(function() {
+Route::prefix('ace-admin')->name('admin.')->middleware('auth')->group(function() {
     Route::get('/', function () {
         return view('admin.pages.dashboard');
     })->name('dashboard');
