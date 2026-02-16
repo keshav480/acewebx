@@ -1,11 +1,18 @@
-// sticky header shadow on scroll
-document.addEventListener('scroll', () => {
-    const header = document.getElementById('site-header');
-    if (!header) return;
+import $ from "jquery";
 
-    if (window.scrollY > 20) {
-        header.classList.add('shadow-lg');
+$(document).ready(function() {
+    console.log("Custom JS loaded. Checking for Slick...");
+
+    // Safety check to ensure Slick is ready
+    if ($.fn.slick) {
+        $('.slider').slick({
+            autoplay: true,
+            dots: true,
+            infinite: true,
+            arrows: true
+        });
+        console.log("Slick initialized!");
     } else {
-        header.classList.remove('shadow-lg');
+        console.error("Slick is not a function. Check app.js import order.");
     }
 });

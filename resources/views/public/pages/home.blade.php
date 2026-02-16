@@ -96,7 +96,7 @@
     <div class="max-w-7xl mx-auto px-6 text-center">
         <h2 class="text-3xl font-bold mb-10">What Clients Say</h2>
 
-        <div class="grid md:grid-cols-3 gap-8">
+        <div class="grid md:grid-cols-3 gap-8 slider">
             @for ($i = 1; $i <= 3; $i++)
                 <div class="border rounded-xl p-6 shadow-sm">
                     <p class="text-gray-600 mb-4">
