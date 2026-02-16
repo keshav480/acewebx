@@ -1,18 +1,22 @@
 import $ from "jquery";
 
-$(document).ready(function() {
-    console.log("Custom JS loaded. Checking for Slick...");
+$(document).ready(function () {
+       $(".slider").slick({
+        slidesToShow: 3,     
+        slidesToScroll: 1,
+        // dots: true,
+        // arrows: true,
+        autoplay: true,
+        autoplaySpeed: 3000,
+        infinite: true,
+        //  prevArrow: `
+        //     <button class="absolute left-2 top-1/2 -translate-y-1/2 z-10 bg-black text-white px-3 py-2 rounded">
+        //         ←
+        //     </button>`,
 
-    // Safety check to ensure Slick is ready
-    if ($.fn.slick) {
-        $('.slider').slick({
-            autoplay: true,
-            dots: true,
-            infinite: true,
-            arrows: true
-        });
-        console.log("Slick initialized!");
-    } else {
-        console.error("Slick is not a function. Check app.js import order.");
-    }
+        // nextArrow: `
+        //     <button class="absolute right-2 top-1/2 -translate-y-1/2 z-10 bg-black text-white px-3 py-2 rounded">
+        //         →
+        //     </button>`
+    });
 });

@@ -97,7 +97,7 @@
         <h2 class="text-3xl font-bold mb-10">What Clients Say</h2>
 
         <div class="grid md:grid-cols-3 gap-8 slider">
-            @for ($i = 1; $i <= 3; $i++)
+            @for ($i = 1; $i <= 8; $i++)
                 <div class="border rounded-xl p-6 shadow-sm">
                     <p class="text-gray-600 mb-4">
                         Excellent service, professional team, and timely delivery.
