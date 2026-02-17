@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\admin\SettingController;
+use App\Http\Controllers\admin\DashboardController;
 
 Route::middleware('guest')->group(function () {
 
@@ -33,14 +35,17 @@ Route::prefix('ace-admin')->name('admin.')->middleware('auth')->group(function()
         return view('admin.pages.users');
     })->name('users.index');
 
-    // Settings
-    Route::get('/settings', function () {
-        return view('admin.pages.settings');
-    })->name('settings');
-
+   
     // Profile
     Route::get('/profile', function () {
         return view('admin.pages.profile');
     })->name('profile');
- 
+    // Settings
+    Route::get('/settings', [SettingController::class, 'index'])->name('settings');
+    Route::post('/settings', [SettingController::class, 'store'])->name('settings.store');    
+   
+
+});
+Route::middleware(['auth', 'load.smtp'])->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index']);
 });

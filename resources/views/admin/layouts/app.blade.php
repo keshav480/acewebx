@@ -16,7 +16,7 @@
             @include('admin.components.header')
 
             <main class="flex-1">
-                <div class="max-w-7xl mx-auto px-6 py-6">
+                <div class="max-w-8xl auto px-6 py-6">
                     @yield('content')
                 </div>
             </main>

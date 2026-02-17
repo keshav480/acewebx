@@ -10,3 +10,4 @@ import "slick-carousel/slick/slick-theme.css";
 
 import './public/custom';
 
+import './admin/custom';

@@ -1,5 +1,81 @@
 @extends('admin.layouts.app')
+
 @section('content')
-  
+
+<div class="p-4 sm:p-6 lg:p-8">
+@if(session('success'))
+    <div id="message"
+        class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4 transition-opacity duration-500 message">
+        {{ session('success') }}
+    </div>
+@endif
+
+@if ($errors->any())
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4 message">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
+    <!-- Page Title -->
+    <form action="{{ route('admin.settings.store') }}" method="POST">
+    @csrf
+<div class="flex justify-between max-w-8xl mx-auto px-6 py-4">
+    <div class="flex items-center gap-4">
+        <h1 class="text-2xl font-bold mb-6">Settings</h1>
+    </div>
+    <button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+        Save
+    </button>
+</div>
+    <!-- Cards Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="bg-white shadow-lg rounded-xl p-6 border">
+            <h2 class="text-lg font-semibold mb-4">SMTP Settings</h2>
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium">SMTP Host</label>
+                    <input type="text" name="smtp_host" class="w-full border rounded-lg p-2 mt-1"value="{{ old('smtp_host', $settings['smtp_host'] ?? '') }}">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium">SMTP Port</label>
+                    <input type="text" name="smtp_port" class="w-full border rounded-lg p-2 mt-1" value="{{ old('smtp_port', $settings['smtp_port'] ?? '') }}">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium">Username</label>
+                    <input type="text" name="smtp_username" class="w-full border rounded-lg p-2 mt-1" value="{{ old('smtp_username', $settings['smtp_username'] ?? '') }}">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium">Password</label>
+                    <input type="password" name="smtp_password" class="w-full border rounded-lg p-2 mt-1" value="{{ old('smtp_password', $settings['smtp_password'] ?? '') }}">
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="bg-white shadow-lg rounded-xl p-4 border">
+            <h2 class="text-lg font-semibold mb-4">Email Settings</h2>
+            <p class="text-gray-600">Add your email configuration here.</p>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="bg-white shadow-lg rounded-xl p-4 border">
+            <h2 class="text-lg font-semibold mb-4">Notification Settings</h2>
+            <p class="text-gray-600">Manage notification preferences.</p>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="bg-white shadow-lg rounded-xl p-6 border">
+            <h2 class="text-lg font-semibold mb-4">System Settings</h2>
+            <p class="text-gray-600">Configure system options.</p>
+        </div>
+
+    </div>
+
+    </div>
+</form>
 
 @endsection
