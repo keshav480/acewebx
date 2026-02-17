@@ -29,34 +29,23 @@ class AuthController extends Controller
     |--------------------------------------------------------------------------
     */
     if ($request->filled('otp')) {
-
         $request->validate([
             'otp' => ['required', 'digits:6']
         ]);
-
         $user = User::where('email', session('login_email'))
                     ->where('otp', $request->otp)
                     ->first();
-
         if (!$user) {
             return back()->with('error', 'Invalid OTP');
         }
-
-        // OTP correct → clear OTP
         $user->update([
             'otp' => null
         ]);
-
-        // login user
         Auth::login($user);
-
-        // clear session flags
         $request->session()->forget(['otp_sent', 'login_email']);
 
         return redirect()->intended(route('admin.dashboard'));
     }
-
-
     /*
     |--------------------------------------------------------------------------
     | STEP 1 → EMAIL + PASSWORD LOGIN
@@ -66,34 +55,20 @@ class AuthController extends Controller
         'email' => ['required', 'email'],
         'password' => ['required'],
     ]);
-
     if (Auth::attempt($credentials)) {
-
         $user = Auth::user();
-
-        // generate 6 digit OTP
         $otp = random_int(100000, 999999);
-
-        // store OTP
         $user->update([
             'otp' => $otp
         ]);
-
-        // send OTP email
         Mail::to($user->email)->send(new LoginOtpMail($otp));
-
-        // logout until OTP verified
         Auth::logout();
-
-        // store session flags
         session([
             'otp_sent' => true,
             'login_email' => $user->email
         ]);
-
         return back()->with('success', 'OTP sent to your email.');
     }
-
     return back()->withErrors([
         'email' => 'Invalid credentials',
     ]);

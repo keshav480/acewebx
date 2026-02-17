@@ -1,10 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\admin\SettingController;
 use App\Http\Controllers\admin\DashboardController;
-use Illuminate\Support\Facades\Mail;
+use App\Http\Controllers\admin\UserController;
+
 
 Route::middleware('guest')->group(function () {
 
@@ -34,9 +36,7 @@ Route::prefix('ace-admin')->name('admin.')->middleware('auth')->group(function()
     });
 
     // Users
-    Route::get('/users', function () {
-        return view('admin.pages.users');
-    })->name('users.index');
+    Route::get('/users', [UserController::class, 'index'])->name('users.index');
 
    
     // Profile
