@@ -45,7 +45,14 @@
                     <!-- Dropdown Menu -->
                     <div id="user-menu" class="hidden absolute right-0 mt-2 w-40 bg-white text-gray-900 rounded shadow-lg py-2">
                         <a href="{{ route('admin.profile') }}" class="block px-4 py-2 hover:bg-gray-100">Profile</a>
-                        <a href="" class="block px-4 py-2 hover:bg-gray-100">Logout</a>
+                        <a href="{{ route('logout') }}"
+                        onclick="event.preventDefault();
+                                    document.getElementById('logout-form').submit();"class="block px-4 py-2 hover:bg-gray-100">
+                            Logout
+                        </a>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            @csrf <!-- Blade directive for CSRF token -->
+                        </form>
                     </div>
                 </div>
             </div>

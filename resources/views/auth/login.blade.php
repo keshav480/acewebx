@@ -16,33 +16,66 @@
             </div>
         @endif
 
-        <form method="POST" action="{{ route('login') }}">
-            @csrf
+      <form method="POST" action="{{ route('login') }}">
+    @csrf
 
-            <div class="mb-4">
-                <label class="block text-gray-700 mb-2">Email</label>
-                <input type="email" name="email" value="{{ old('email') }}" 
-                       class="w-full p-2 border rounded" required autofocus>
-            </div>
+    {{-- Success message --}}
+    @if(session('success'))
+        <div class="bg-green-100 text-green-700 p-2 mb-3">
+            {{ session('success') }}
+        </div>
+    @endif
 
-            <div class="mb-4">
-                <label class="block text-gray-700 mb-2">Password</label>
-                <input type="password" name="password" class="w-full p-2 border rounded" required>
-            </div>
+    {{-- Error message --}}
+    @if(session('error'))
+        <div class="bg-red-100 text-red-700 p-2 mb-3">
+            {{ session('error') }}
+        </div>
+    @endif
 
-            <div class="mb-4 flex items-center">
-                <input type="checkbox" name="remember" id="remember" class="mr-2">
-                <label for="remember" class="text-gray-700 text-sm">Remember Me</label>
-            </div>
+    {{-- STEP 1: Normal Login --}}
+    @if(!session('otp_sent'))
 
-            <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 rounded">
-                Login
-            </button>
+        <div class="mb-4">
+            <label>Email</label>
+            <input type="email" name="email"
+                   class="w-full p-2 border rounded" required>
+        </div>
 
-            <p class="text-sm mt-4 text-center">
+        <div class="mb-4">
+            <label>Password</label>
+            <input type="password" name="password"
+                   class="w-full p-2 border rounded" required>
+        </div>
+
+        <button type="submit"
+            class="w-full bg-blue-600 text-white py-2 rounded">
+            Login
+        </button>
+
+    @else
+
+    {{-- STEP 2: OTP Input --}}
+        <div class="mb-4">
+            <label>Enter OTP sent to your email</label>
+
+            <input type="text" name="otp"
+                class="w-full p-2 border rounded"
+                placeholder="6 digit code"
+                required>
+        </div>
+
+        <button type="submit"
+            class="w-full bg-green-600 text-white py-2 rounded">
+            Verify OTP
+        </button>
+
+    @endif
+ <p class="text-sm mt-4 text-center">
                 Don't have an account? <a href="{{ route('register') }}" class="text-blue-600 hover:underline">Register</a>
             </p>
-        </form>
+</form>
+
     </div>
 
 </body>
