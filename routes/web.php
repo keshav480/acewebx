@@ -26,7 +26,7 @@ Route::get('/', function () {
     return view('public.pages.home');
 });
 
-Route::prefix('ace-admin')->name('admin.')->middleware('auth')->group(function() {
+Route::prefix('ace-admin')->name('admin.')->middleware(['auth','admin'])->group(function() {
     Route::get('/', function () {
         return view('admin.pages.dashboard');
     })->name('dashboard');
@@ -37,9 +37,10 @@ Route::prefix('ace-admin')->name('admin.')->middleware('auth')->group(function()
 
     // Users
     Route::get('/users', [UserController::class, 'index'])->name('users.index');
-
-   
-    // Profile
+    Route::get('/users/{id}', [UserController::class, 'show'])->name('users.show');
+     Route::put('/user/update/{id}', [UserController::class, 'update'])->name('user.update');
+     
+     // Profile
     Route::get('/profile', function () {
         return view('admin.pages.profile');
     })->name('profile');

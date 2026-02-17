@@ -21,6 +21,31 @@ public function index()
 
     $users = $users->latest()->paginate(10)->withQueryString();
 
-    return view('admin.pages.users', compact('users'));
+    return view('admin.pages.users.users', compact('users'));
+}
+public function show($id){
+   $user = User::findOrFail($id);
+    return view('admin.pages.users.edit', compact('user'));
+}
+
+public function update(Request $request, $id)
+{
+    $user = User::findOrFail($id);
+
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|email|unique:users,email,' . $user->id,
+        'role' => 'required'
+    ]);
+
+    $user->update([
+        'name' => $request->name,
+        'email' => $request->email,
+        'role' => $request->role
+    ]);
+
+    return redirect()
+        ->route('admin.users.index')
+        ->with('success', 'User updated successfully');
 }
 }

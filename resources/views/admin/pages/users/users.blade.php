@@ -52,7 +52,7 @@
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Email</th>
                          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Role</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Created</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+                        <!-- <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th> -->
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Action</th>
                     </tr>
                 </thead>
@@ -62,28 +62,26 @@
 
                     @forelse($users as $user)
                     <tr class="hover:bg-gray-50">
-
                         <td class="px-6 py-4">
                             {{ $loop->iteration + ($users->currentPage() - 1) * $users->perPage() }}
                         </td>
-
                         <td class="px-6 py-4 font-medium text-gray-900">
+                           <a href="{{ route('admin.users.show', ['id' => $user->id]) }}">
                             {{ $user->name }}
+                            </a>
                         </td>
-                         
                           <td class="px-6 py-4 text-gray-600">
                             {{ $user->email }}
                         </td>
                         <td class="px-6 py-4 text-gray-600">
                           {{ $user->role }}
                         </td>
-
                         <td class="px-6 py-4 text-gray-500">
                             {{ $user->created_at->format('d M Y') }}
                         </td>
 
                         <!-- Status -->
-                        <td class="px-6 py-4">
+                        <!-- <td class="px-6 py-4">
                             @if($user->email_verified_at)
                                 <span class="px-2 py-1 text-xs font-semibold bg-green-100 text-green-700 rounded">
                                     Active
@@ -93,27 +91,18 @@
                                     Pending
                                 </span>
                             @endif
-                        </td>
+                        </td> -->
 
                         <!-- Actions -->
                         <td class="px-6 py-4 space-x-2">
-
-                            <button class="px-3 py-1 bg-blue-500 text-white text-sm rounded hover:bg-blue-600">
-                                View
-                            </button>
-
-                            <button class="px-3 py-1 bg-yellow-500 text-white text-sm rounded hover:bg-yellow-600">
+                            <a href="{{ route('admin.users.show', ['id' => $user->id]) }}"class="px-3 py-1 bg-yellow-500 text-white text-sm rounded hover:bg-yellow-600">
                                 Edit
-                            </button>
-
+                            </a>
                             <button class="px-3 py-1 bg-red-500 text-white text-sm rounded hover:bg-red-600">
                                 Delete
                             </button>
-
                         </td>
-
                     </tr>
-
                     @empty
                     <tr>
                         <td colspan="6" class="text-center py-6 text-gray-500">
