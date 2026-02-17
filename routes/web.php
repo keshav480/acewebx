@@ -15,6 +15,8 @@ Route::middleware('guest')->group(function () {
     // Register
     Route::get('register', [AuthController::class, 'showRegistrationForm'])->name('register');
     Route::post('register', [AuthController::class, 'register']);   
+    
+    Route::get('/cancel-otp', [AuthController::class, 'cancelOtp'])->name('cancel.otp');
 });
 
 // Public Home

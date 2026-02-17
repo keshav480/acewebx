@@ -23,29 +23,47 @@ class AuthController extends Controller
     
  public function login(Request $request)
 {
-    // STEP 2: OTP verification
+    /*
+    |--------------------------------------------------------------------------
+    | STEP 2 → VERIFY OTP FIRST
+    |--------------------------------------------------------------------------
+    */
     if ($request->filled('otp')) {
 
+        $request->validate([
+            'otp' => ['required', 'digits:6']
+        ]);
+
         $user = User::where('email', session('login_email'))
-            ->where('otp', $request->otp)
-            ->first();
+                    ->where('otp', $request->otp)
+                    ->first();
 
         if (!$user) {
             return back()->with('error', 'Invalid OTP');
         }
 
-        // OTP correct → login user
-        $user->update(['otp' => null]);
+        // OTP correct → clear OTP
+        $user->update([
+            'otp' => null
+        ]);
 
+        // login user
         Auth::login($user);
-        $request->session()->forget(['otp_sent','login_email']);
+
+        // clear session flags
+        $request->session()->forget(['otp_sent', 'login_email']);
 
         return redirect()->intended(route('admin.dashboard'));
     }
 
-    // STEP 1: Email + password login
+
+    /*
+    |--------------------------------------------------------------------------
+    | STEP 1 → EMAIL + PASSWORD LOGIN
+    |--------------------------------------------------------------------------
+    */
     $credentials = $request->validate([
-        'email' => ['required','email'],
+        'email' => ['required', 'email'],
         'password' => ['required'],
     ]);
 
@@ -53,18 +71,21 @@ class AuthController extends Controller
 
         $user = Auth::user();
 
-        // generate OTP
+        // generate 6 digit OTP
         $otp = random_int(100000, 999999);
 
-        $user->update(['otp' => $otp]);
+        // store OTP
+        $user->update([
+            'otp' => $otp
+        ]);
 
-        // send email
+        // send OTP email
         Mail::to($user->email)->send(new LoginOtpMail($otp));
 
         // logout until OTP verified
         Auth::logout();
 
-        // store email + flag in session
+        // store session flags
         session([
             'otp_sent' => true,
             'login_email' => $user->email
@@ -77,6 +98,7 @@ class AuthController extends Controller
         'email' => 'Invalid credentials',
     ]);
 }
+
     public function logout(Request $request)
     {
         Auth::logout();
@@ -109,5 +131,12 @@ class AuthController extends Controller
         $request->session()->regenerateToken(); 
         return redirect('/'); 
     }
+    public function cancelOtp()
+    {
+        session()->forget('otp_sent');
+        session()->forget('otp_code');
+        session()->forget('otp_email');
 
+        return redirect()->route('login');
+    }
 }

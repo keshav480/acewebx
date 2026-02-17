@@ -41,20 +41,16 @@
             <input type="email" name="email"
                    class="w-full p-2 border rounded" required>
         </div>
-
         <div class="mb-4">
             <label>Password</label>
             <input type="password" name="password"
                    class="w-full p-2 border rounded" required>
         </div>
-
         <button type="submit"
             class="w-full bg-blue-600 text-white py-2 rounded">
             Login
         </button>
-
     @else
-
     {{-- STEP 2: OTP Input --}}
         <div class="mb-4">
             <label>Enter OTP sent to your email</label>
@@ -64,16 +60,18 @@
                 placeholder="6 digit code"
                 required>
         </div>
-
         <button type="submit"
             class="w-full bg-green-600 text-white py-2 rounded">
             Verify OTP
         </button>
-
+    {{-- ✅ Back to Login Button --}}
+    <div class="mt-3 text-center">
+        <a href="{{ route('cancel.otp') }}">← Back to Login</a>
+    </div>
     @endif
- <p class="text-sm mt-4 text-center">
-                Don't have an account? <a href="{{ route('register') }}" class="text-blue-600 hover:underline">Register</a>
-            </p>
+        <p class="text-sm mt-4 text-center">
+            Don't have an account? <a href="{{ route('register') }}" class="text-blue-600 hover:underline">Register</a>
+        </p>
 </form>
 
     </div>
