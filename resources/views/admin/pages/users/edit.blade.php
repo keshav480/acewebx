@@ -15,7 +15,7 @@
 
     <div class="bg-white shadow rounded-lg p-6">
 
-        <form method="POST" action="">
+        <form method="POST" action="{{ route('admin.users.update', $user->id) }}">
             @csrf
             @method('PUT')
 

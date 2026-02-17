@@ -38,12 +38,10 @@ Route::prefix('ace-admin')->name('admin.')->middleware(['auth','admin'])->group(
     // Users
     Route::get('/users', [UserController::class, 'index'])->name('users.index');
     Route::get('/users/{id}', [UserController::class, 'show'])->name('users.show');
-     Route::put('/user/update/{id}', [UserController::class, 'update'])->name('user.update');
-     
+    Route::put('/users/{id}', [UserController::class, 'update'])->name('users.update');
+
      // Profile
-    Route::get('/profile', function () {
-        return view('admin.pages.profile');
-    })->name('profile');
+    Route::get('/profile', function () {return view('admin.pages.profile');})->name('profile');
     // Settings
     Route::get('/settings', [SettingController::class, 'index'])->name('settings');
     Route::post('/settings', [SettingController::class, 'store'])->name('settings.store');    
