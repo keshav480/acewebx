@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\admin\SettingController;
 use App\Http\Controllers\admin\DashboardController;
+use Illuminate\Support\Facades\Mail;
 
 Route::middleware('guest')->group(function () {
 
@@ -45,7 +46,4 @@ Route::prefix('ace-admin')->name('admin.')->middleware('auth')->group(function()
     Route::post('/settings', [SettingController::class, 'store'])->name('settings.store');    
    
 
-});
-Route::middleware(['auth', 'load.smtp'])->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'index']);
 });

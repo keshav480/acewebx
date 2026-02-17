@@ -22,7 +22,7 @@ class LoadSmtpSettings
         try {
             // Get SMTP settings from database
             $smtpHost = Setting::where('key', 'smtp_host')->value('value');
-            
+          $smtpPort = Setting::where('key', 'smtp_port')->value('value') ?? 587;
             if ($smtpHost) {
                 // Set mail configuration dynamically from database
                 Config::set('mail.default', 'smtp');
