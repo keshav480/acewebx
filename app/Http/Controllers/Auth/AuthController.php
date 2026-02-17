@@ -92,27 +92,21 @@ class AuthController extends Controller
             'email' => ['required','email','unique:users,email'],
             'password' => ['required','confirmed','min:6'],
         ]);
-
         $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
-
-        Auth::login($user);
-
-        return redirect()->route('admin.dashboard');
+        // Auth::login($user);
+        return redirect()->route('login')->with('success', 'Registration successful. Please login.');
     }
 
 
      public function destroy(Request $request)
     {
         Auth::guard('web')->logout(); 
-
         $request->session()->invalidate(); 
-
         $request->session()->regenerateToken(); 
-
         return redirect('/'); 
     }
 
