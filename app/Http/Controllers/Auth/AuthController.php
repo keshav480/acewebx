@@ -8,7 +8,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\LoginOtpMail;
 use Illuminate\Support\Facades\hash;
-
+use App\Notifications\NewUserRegisteredNotification;
 
 class AuthController extends Controller
 {
@@ -94,7 +94,11 @@ class AuthController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
-        // Auth::login($user);
+        $admin = User::where('role', 'admin')->first();
+        if ($admin) {
+            $admin->notify(new NewUserRegisteredNotification($user->name));
+        }
+
         return redirect()->route('login')->with('success', 'Registration successful. Please login.');
     }
 

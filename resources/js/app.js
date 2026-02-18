@@ -1,4 +1,6 @@
 import $ from "jquery";
+import './echo';
+
 window.$ = window.jQuery = $;
 
 /* Load Slick slider */
