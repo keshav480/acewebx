@@ -44,8 +44,10 @@ class AuthController extends Controller
         ]);
         Auth::login($user);
         $request->session()->forget(['otp_sent', 'login_email']);
-
-        return redirect()->intended(route('admin.dashboard'));
+        if ($user->role === 'admin') {
+            return redirect()->intended(route('admin.dashboard'));
+        }
+        return redirect()->intended(route('home'));
     }
     /*
     |--------------------------------------------------------------------------

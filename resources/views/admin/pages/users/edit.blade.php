@@ -48,6 +48,26 @@
                 </select>
             </div>
 
+            {{-- Password --}}
+            <div class="mb-4">
+                <label class="block text-gray-700 mb-2">Password</label>
+
+                <div class="flex gap-2">
+                    <input type="text"
+                        name="password"
+                        id="passwordField"
+                        class="w-full border p-2 rounded"
+                        placeholder="Leave blank to keep current password">
+
+                    <button type="button"
+                        id="generatePasswordBtn"
+                        class="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700">
+                        Generate
+                    </button>
+                </div>
+            </div>
+
+
             {{-- Buttons --}}
             <div class="flex gap-3">
 

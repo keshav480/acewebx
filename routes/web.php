@@ -24,7 +24,7 @@ Route::middleware('guest')->group(function () {
 // Public Home
 Route::get('/', function () {
     return view('public.pages.home');
-});
+})->name('home');
 
 Route::prefix('ace-admin')->name('admin.')->middleware(['auth','admin'])->group(function() {
     Route::get('/', function () {
@@ -45,7 +45,5 @@ Route::prefix('ace-admin')->name('admin.')->middleware(['auth','admin'])->group(
     // Settings
     Route::get('/settings', [SettingController::class, 'index'])->name('settings');
     Route::post('/settings', [SettingController::class, 'store'])->name('settings.store');    
-   
-   
 });
  Route::post('/logout', [AuthController::class, 'destroy'])->middleware('auth')->name('logout');

@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\hash;
+
 class UserController extends Controller
 {
 public function index()
@@ -41,7 +43,8 @@ public function update(Request $request, $id)
     $user->update([
         'name' => $request->name,
         'email' => $request->email,
-        'role' => $request->role
+        'role' => $request->role,
+        'password'=>Hash::make($request->password),
     ]);
 
     return redirect()

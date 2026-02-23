@@ -11,7 +11,7 @@ class AdminMiddleware
     public function handle(Request $request, Closure $next)
     {
         if (!Auth::check() || Auth::user()->role !== 'admin') {
-            abort(403, 'Unauthorized access');
+          return redirect()->intended(route('home'));
         }
 
         return $next($request);
