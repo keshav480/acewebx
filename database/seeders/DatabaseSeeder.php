@@ -15,13 +15,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Call the SettingsSeeder to create SMTP settings
         $this->call(SettingsSeeder::class);
-        
-        // Call the UsersTableSeeder to create admin and regular users
         $this->call(UsersTableSeeder::class);
-
-        // User::factory(10)->create();
+        $this->call([PageSeeder::class,]);
 
         User::factory()->create([
             'name' => 'Test User',

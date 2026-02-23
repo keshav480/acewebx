@@ -9,6 +9,12 @@ return [
             'pattern' => 'admin.dashboard',
         ],
         [
+            'title' => 'Pages',
+            'route' => 'admin.pages', 
+            'icon'  => 'fa fa-file',       
+            'pattern' => 'admin.pages',  
+        ],
+        [
             'title' => 'Users',
             'route' => 'admin.users.index',
             'icon'  => 'fa fa-users',

@@ -87,7 +87,7 @@
 
                     <!-- Dropdown Menu -->
                     <div id="user-menu" class="hidden absolute right-0 mt-2 w-40 bg-white text-gray-900 rounded shadow-lg py-2">
-                        <a href="{{ route('admin.profile') }}" class="block px-4 py-2 hover:bg-gray-100">Profile</a>
+                        <a href="{{ route('admin.users.show', ['id' => auth()->user()->id]) }}" class="block px-4 py-2 hover:bg-gray-100">Profile</a>
                         <a href="{{ route('logout') }}"
                         onclick="event.preventDefault();
                                     document.getElementById('logout-form').submit();"class="block px-4 py-2 hover:bg-gray-100">

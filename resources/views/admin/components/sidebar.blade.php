@@ -1,4 +1,4 @@
-<aside class="w-64 bg-gray-800 text-gray-100 flex-shrink-0 h-screen flex flex-col">
+<aside class="w-64 bg-gray-800 text-gray-100 flex-shrink-0  flex flex-col">
         <div class="p-6 text-xl font-bold border-b border-gray-700 flex items-center gap-2">
             <img src="{{ asset('admin/images/user-avatar.png') }}" alt="User Avatar" class="h-8 w-8 rounded-full">
             <span class="text-sm font-medium"> {{ auth()->user()->name ?? 'Guest' }}</span>

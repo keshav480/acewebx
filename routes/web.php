@@ -7,6 +7,7 @@ use App\Http\Controllers\admin\SettingController;
 use App\Http\Controllers\admin\DashboardController;
 use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\admin\MenuController;
+use App\Http\Controllers\admin\PageController;
 
 Route::middleware('guest')->group(function () {
 
@@ -31,24 +32,35 @@ Route::get('/profile', function () {
 
 Route::prefix('ace-admin')->name('admin.')->middleware(['auth','admin'])->group(function() {
     Route::get('/', [DashboardController::class , 'index'])->name('dashboard');
-
     Route::get('/dashboard', function () {
         return view('admin.pages.dashboard');
     });
-
     // Users
     Route::get('/users', [UserController::class, 'index'])->name('users.index');
     Route::get('/users/{id}', [UserController::class, 'show'])->name('users.show');
     Route::put('/users/{id}', [UserController::class, 'update'])->name('users.update');
-
-     // Profile
-    Route::get('/profile', function () {return view('admin.pages.profile');})->name('profile');
     // Settings
     Route::get('/settings', [SettingController::class, 'index'])->name('settings');
     Route::post('/settings', [SettingController::class, 'store'])->name('settings.store');    
 
-
     Route::get('/menu', [MenuController::class, 'index'])->name('menu');    
+    
+    // Pages list
+     Route::get('/pages/', [PageController::class, 'index'])->name('pages.index');
+    Route::get('/pages/?search', [PageController::class, 'index'])->name('pages');
+    // Create page form
+    Route::get('/pages/create', [PageController::class, 'create'])->name('pages.create');
+    // Store new page
+    Route::post('/pages', [PageController::class, 'store'])->name('pages.store');
+    // Edit page form
+    Route::get('/pages/edit/{id}', [PageController::class, 'edit'])->name('pages.edit');
+    // Update page
+    Route::put('/pages/{id}', [PageController::class, 'update'])->name('pages.update');
+    // Delete page
+    Route::delete('/pages/{id}', [PageController::class, 'destroy'])->name('pages.destroy');
+
+
+
 
 });
  Route::post('/logout', [AuthController::class, 'destroy'])->middleware('auth')->name('logout');

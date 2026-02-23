@@ -14,12 +14,12 @@ class SettingsSeeder extends Seeder
     {
         // Default SMTP settings
         $settings = [
-            ['key' => 'smtp_host', 'value' => 'smtp.mailtrap.io'],
+            ['key' => 'smtp_host', 'value' => 'smtp.gmail.com'],
             ['key' => 'smtp_port', 'value' => '587'],
-            ['key' => 'smtp_username', 'value' => 'your-email@example.com'],
-            ['key' => 'smtp_password', 'value' => 'your-password'],
+            ['key' => 'smtp_username', 'value' => 'keshav.acewebx@gmail.com'],
+            ['key' => 'smtp_password', 'value' => 'ngpmvshibgbucyje'],
             ['key' => 'smtp_encryption', 'value' => 'tls'],
-            ['key' => 'smtp_from_address', 'value' => 'noreply@acewebx.com'],
+            ['key' => 'smtp_from_address', 'value' => 'keshav.acewebx@gmail.com'],
             ['key' => 'site_name', 'value' => 'Acewebx'],
         ];
 

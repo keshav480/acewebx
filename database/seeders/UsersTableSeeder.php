@@ -12,7 +12,7 @@ class UsersTableSeeder extends Seeder
     {
         // Admin user
         User::firstOrCreate(
-            ['email' => 'admin@example.com'], 
+            ['email' => 'acewebx@yopmail.com'], 
             [
                 'name' => 'Admin User',
                 'password' => 'password',
