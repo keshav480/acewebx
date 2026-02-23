@@ -43,7 +43,8 @@ Route::prefix('ace-admin')->name('admin.')->middleware(['auth','admin'])->group(
     Route::get('/settings', [SettingController::class, 'index'])->name('settings');
     Route::post('/settings', [SettingController::class, 'store'])->name('settings.store');    
 
-    Route::get('/menu', [MenuController::class, 'index'])->name('menu');    
+    Route::get('/menu', [MenuController::class, 'index'])->name('menu');   
+    Route::post('/menu/store', [MenuController::class, 'store'])->name('menu.store');   
     
     // Pages list
      Route::get('/pages/', [PageController::class, 'index'])->name('pages.index');
