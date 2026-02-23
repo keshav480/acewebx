@@ -6,7 +6,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\admin\SettingController;
 use App\Http\Controllers\admin\DashboardController;
 use App\Http\Controllers\admin\UserController;
-
+use App\Http\Controllers\admin\MenuController;
 
 Route::middleware('guest')->group(function () {
 
@@ -30,9 +30,7 @@ Route::get('/profile', function () {
 })->name('profile');
 
 Route::prefix('ace-admin')->name('admin.')->middleware(['auth','admin'])->group(function() {
-    Route::get('/', function () {
-        return view('admin.pages.dashboard');
-    })->name('dashboard');
+    Route::get('/', [DashboardController::class , 'index'])->name('dashboard');
 
     Route::get('/dashboard', function () {
         return view('admin.pages.dashboard');
@@ -48,5 +46,9 @@ Route::prefix('ace-admin')->name('admin.')->middleware(['auth','admin'])->group(
     // Settings
     Route::get('/settings', [SettingController::class, 'index'])->name('settings');
     Route::post('/settings', [SettingController::class, 'store'])->name('settings.store');    
+
+
+    Route::get('/menu', [MenuController::class, 'index'])->name('menu');    
+
 });
  Route::post('/logout', [AuthController::class, 'destroy'])->middleware('auth')->name('logout');

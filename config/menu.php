@@ -20,6 +20,13 @@ return [
             'icon'  => 'fa fa-cog',
             'pattern' => 'admin.settings',
         ],
+          [
+            'title' => 'Menu',
+            'route' => 'admin.menu',
+            'icon'  => 'fa fa-bars',
+            'pattern' => 'admin.menu',
+        ],
+        
     ],
     'header' => [
         [

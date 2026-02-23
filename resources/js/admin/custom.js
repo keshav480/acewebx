@@ -91,6 +91,7 @@ function handleNewUserNotification(e) {
     }
     showNotificationToast(userName);
     document.dispatchEvent(new CustomEvent('new-notification'));
+    $('#showdots').removeClass('hidden');
 }
 // Get notification when user register (End)
 
