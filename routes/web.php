@@ -25,6 +25,9 @@ Route::middleware('guest')->group(function () {
 Route::get('/', function () {
     return view('public.pages.home');
 })->name('home');
+Route::get('/profile', function () {
+
+})->name('profile');
 
 Route::prefix('ace-admin')->name('admin.')->middleware(['auth','admin'])->group(function() {
     Route::get('/', function () {
