@@ -2,51 +2,45 @@
 
 namespace App\Notifications;
 
+use App\Models\User;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\BroadcastMessage;
 
-class NewUserRegisteredNotification extends Notification
+class NewUserRegisteredNotification extends Notification implements ShouldBroadcast
 {
     use Queueable;
 
-    protected $message;
+    protected $user;
 
-    /**
-     * Create a new notification instance.
-     */
-    public function __construct($message)
+    public function __construct(User $user)
     {
-        $this->message = $message;
+        $this->user = $user;
     }
 
-    /**
-     * Notification channels
-     */
     public function via($notifiable)
     {
-        // database = store in DB
-        // broadcast = realtime notification
         return ['database', 'broadcast'];
     }
 
-    /**
-     * Store notification in database
-     */
     public function toArray($notifiable)
     {
         return [
-            'message' => $this->message
+            'message' => $this->user->name . ' registered as a new user',
+            'user_id' => $this->user->id,
+            'user_name' => $this->user->name,
+            'user_email' => $this->user->email,
         ];
     }
 
-    /**
-     * Realtime broadcast
-     */
     public function toBroadcast($notifiable)
     {
         return new BroadcastMessage([
-            'message' => $this->message
+            'message' => $this->user->name . ' registered as a new user',
+            'user_id' => $this->user->id,
+            'user_name' => $this->user->name,
+            'user_email' => $this->user->email,
         ]);
     }
 }

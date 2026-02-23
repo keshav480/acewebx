@@ -41,11 +41,14 @@
                             x-transition
                             @click.outside="open = false"
                             x-cloak
-                            class="absolute right-0 mt-2 w-48 bg-white text-black rounded shadow-lg">
+                            class="absolute right-0 mt-2 w-72 bg-white text-black rounded shadow-lg max-h-96 overflow-y-auto">
 
-                            <a href="#" class="block px-4 py-2 hover:bg-gray-100">Notification 1</a>
-                            <a href="#" class="block px-4 py-2 hover:bg-gray-100">Notification 2</a>
-                            <a href="#" class="block px-4 py-2 hover:bg-gray-100">Notification 3</a>
+                            <div id="notification-list" class="divide-y">
+                                <!-- Notifications will be added here dynamically -->
+                                <div class="px-4 py-3 text-gray-500 text-sm text-center">
+                                    No new notifications
+                                </div>
+                            </div>
 
                         </div>
                 </div>

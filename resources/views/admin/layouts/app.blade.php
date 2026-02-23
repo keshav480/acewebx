@@ -4,7 +4,9 @@
      <title>@yield('title', 'Acewebx')</title>
     <link rel="icon" type="image/x-icon" href="{{ asset('public/images/favicon.ico') }}"> 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="user-id" content="{{ auth()->id() }}">
+    <meta name="user-role" content="{{ auth()->user()->role ?? 'user' }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
 </head>
