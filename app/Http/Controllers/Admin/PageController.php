@@ -75,14 +75,24 @@ class PageController extends Controller
     {
         $page = Page::findOrFail($id);
 
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'slug' => 'required|string|max:255|unique:pages,slug,' . $page->id,
-            'status' => 'required|in:draft,published',
-            'order' => 'nullable|integer',
-        ]);
+         $validated =  $request->validate([
+               'title' => 'required|string|max:255',
+               'slug' => 'required|string|max:255|unique:pages,slug,' . $page->id,
+               'status' => 'required|in:draft,published',
+               'order' => 'nullable|integer',
+         ]);
 
-        $page->update($request->all());
+            $slug = Str::slug($validated['slug']);
+            $count = Page::where('slug', 'LIKE', "{$slug}%")->count();
+            if ($count > 0) {
+               $slug .= '-' . ($count + 1);
+            }
+         $page->update([
+            'title' => $validated['title'],
+            'slug' => $slug,
+            'status' => $validated['status'],
+            'order' => $validated['order'] ?? null,
+         ]);
 
         return redirect()->route('admin.pages.index')
                          ->with('success', 'Page updated successfully.');
