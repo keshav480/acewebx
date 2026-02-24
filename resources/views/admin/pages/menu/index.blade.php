@@ -115,170 +115,148 @@
 <!-- jQuery -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-$(document).ready(function(){
+$(function(){
 
     let menuItems = [];
 
-    // =============================
-    // SHOW MENU NAME FIELD
-    // =============================
-    $('#create_menu').click(function(){
-        $('#menuName_outer').removeClass('hidden');
-        $('#menuName').val('');
-        $('#menuSelect').val('');
-        $('#menuItemsContainer').html('');
-        $('#menu_id').val('');
-    });
+    const menuSelect = $('#menuSelect');
+    const menuName = $('#menuName');
+    const menuIdInput = $('#menu_id');
+    const container = $('#menuItemsContainer');
+    const menuData = $('#menuData');
 
     // =============================
-    // LOAD MENU WHEN DROPDOWN CHANGES
+    // HELPERS
     // =============================
-    $('#menuSelect').change(function(){
 
-        let menuId = $(this).val();
-        let selectedText = $(this).find("option:selected").text();
+    function resetMenuUI(){
+        menuItems = [];
+        container.html('<p class="text-gray-500 text-sm">No menu items added</p>');
+        menuData.val('');
+        menuName.val('');
+        menuIdInput.val('');
+        $('input[name="settings[]"]').prop('checked', false);
+    }
 
-        $('#menuName_outer').removeClass('hidden');
-        $('#menuName').val($.trim(selectedText));
-        $('#menu_id').val($.trim(menuId));
-
-        if(!menuId){
-            menuItems = [];
-            $('#menuItemsContainer').html('<p class="text-gray-500 text-sm">No menu items added</p>');
-            return;
+    function renderMenuItems(){
+        if(!menuItems.length){
+            return container.html('<p class="text-gray-500 text-sm">No menu items added</p>');
         }
 
-        $.get('/ace-admin/menu/' + menuId, function(res){
-            menuItems = res.data || [];
-            let settings = res.settings || [];
-            $('#menuItemsContainer').empty();
-            if(menuItems.length === 0){
-                $('#menuItemsContainer').html('<p class="text-gray-500 text-sm">No menu items added</p>');
-            } else {
-                renderMenuItems();
-            }
-            $('#menuData').val(JSON.stringify(menuItems));
-            $('input[name="settings[]"]').prop('checked', false);
-            if(settings){
-              let settings = res.settings || {};
+        let html = menuItems.map(item => `
+            <div class="border border-gray-300 rounded p-2 flex justify-between items-center">
+                <span>${item.title}</span>
+                <button type="button" class="text-red-600 text-sm removeItemBtn">Remove</button>
+            </div>
+        `).join('');
 
-            // uncheck everything first
-            $('input[name="settings[]"]').prop('checked', false);
+        container.html(html);
+    }
 
-            // set auto add pages
-            if(settings.auto_add_pages === true){
-                $('input[name="settings[]"][value="auto_add"]').prop('checked', true);
-            }
+    function updateHiddenData(){
+        menuData.val(JSON.stringify(menuItems));
+    }
 
-            // set location
-            if(settings.location){
-                $('input[name="settings[]"][value="'+settings.location+'"]').prop('checked', true);
-            }
+    function applySettings(settings = {}){
+        $('input[name="settings[]"]').prop('checked', false);
 
-            }
-        });
+        if(settings.auto_add_pages){
+            $('input[value="auto_add"]').prop('checked', true);
+        }
 
-    });
-
-    // =============================
-    // AUTO LOAD SELECTED MENU (IMPORTANT → AFTER EVENT BIND)
-    // =============================
-    if($('#menuSelect').val()){
-        $('#menuSelect').trigger('change');
+        if(settings.location){
+            $('input[value="'+settings.location+'"]').prop('checked', true);
+        }
     }
 
     // =============================
-    // ADD MENU ITEM
+    // CREATE MENU CLICK
+    // =============================
+    $('#create_menu').click(function(){
+        $('#menuName_outer').removeClass('hidden');
+        menuSelect.val('');
+        resetMenuUI();
+    });
+
+    // =============================
+    // LOAD MENU FROM DROPDOWN
+    // =============================
+    menuSelect.change(function(){
+
+        let id = $(this).val();
+        let text = $.trim($(this).find(':selected').text());
+
+        $('#menuName_outer').removeClass('hidden');
+        menuName.val(text);
+        menuIdInput.val(id);
+
+        if(!id) return resetMenuUI();
+
+        $.get('/ace-admin/menu/' + id)
+        .done(function(res){
+            menuItems = res.data || [];
+            renderMenuItems();
+            updateHiddenData();
+            applySettings(res.settings);
+        })
+        .fail(() => alert('Failed to load menu'));
+    });
+
+    // =============================
+    // AUTO LOAD SELECTED MENU
+    // =============================
+    if(menuSelect.val()) menuSelect.trigger('change');
+
+    // =============================
+    // ADD MENU ITEMS
     // =============================
     $('#addMenuBtn').click(function(){
 
         $('.page-checkbox:checked').each(function(){
-
-            let id = $(this).val();
-            let title = $(this).siblings('span').text();
-
             menuItems.push({
-                id: id,
-                title: title
+                id: $(this).val(),
+                title: $(this).siblings('span').text()
             });
 
             $(this).prop('checked', false);
         });
 
         renderMenuItems();
-        $('#menuData').val(JSON.stringify(menuItems));
+        updateHiddenData();
     });
 
     // =============================
-    // REMOVE ITEM
+    // REMOVE MENU ITEM
     // =============================
-    $('#menuItemsContainer').on('click', '.removeItemBtn', function(){
-
+    container.on('click', '.removeItemBtn', function(){
         let index = $(this).closest('div').index();
         menuItems.splice(index, 1);
-
         renderMenuItems();
-        $('#menuData').val(JSON.stringify(menuItems));
+        updateHiddenData();
     });
 
     // =============================
-    // DELETE MENU (FIXED LOCATION)
+    // DELETE MENU
     // =============================
     $('#clearMenuBtn').click(function(){
 
-        let menuId = $('#menuSelect').val();
+        let id = menuSelect.val();
 
-        if(!menuId){
-            alert('Please select a menu first');
-            return;
-        }
-
-        if(!confirm('Are you sure you want to delete this menu?')){
-            return;
-        }
+        if(!id) return alert('Please select a menu first');
+        if(!confirm('Delete this menu?')) return;
 
         $.ajax({
-            url: '/ace-admin/menu/' + menuId,
+            url: '/ace-admin/menu/' + id,
             type: 'DELETE',
-            data: {
-                _token: '{{ csrf_token() }}'
-            },
+            data: { _token: '{{ csrf_token() }}' },
             success: function(){
-
                 alert('Menu deleted successfully');
-
-                menuItems = [];
-                $('#menuItemsContainer').html('<p class="text-gray-500 text-sm">No menu items added</p>');
-                $('#menuData').val('');
-                $('#menuName').val('');
-                $('#menuSelect option:selected').remove();
+                menuSelect.find(':selected').remove();
+                resetMenuUI();
             }
         });
     });
 
-    // =============================
-    // RENDER MENU ITEMS (NEW)
-    // =============================
-    function renderMenuItems(){
-
-        $('#menuItemsContainer').empty();
-
-        if(menuItems.length === 0){
-            $('#menuItemsContainer').html('<p class="text-gray-500 text-sm">No menu items added</p>');
-            return;
-        }
-
-        menuItems.forEach(function(item){
-            $('#menuItemsContainer').append(`
-                <div class="border border-gray-300 rounded p-2 flex justify-between items-center">
-                    <span>${item.title}</span>
-                    <button type="button" class="text-red-600 text-sm removeItemBtn">Remove</button>
-                </div>
-            `);
-        });
-    }
-
 });
-
 </script>
 @endsection

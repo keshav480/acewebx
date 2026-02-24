@@ -84,7 +84,9 @@ class MenuController extends Controller
     {
         $menu = Menu::findOrFail($id);
         $menu->delete();
-
-        return redirect()->route('admin.menu')->with('success', 'Menu deleted successfully.');
+         return response()->json([
+        'status' => 'success',
+        'message' => 'Menu deleted successfully.'
+        ]);
     }
 }
