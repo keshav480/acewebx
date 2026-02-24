@@ -12,7 +12,7 @@ return [
             'title' => 'Pages',
             'route' => 'admin.pages', 
             'icon'  => 'fa fa-file',       
-            'pattern' => 'admin.pages',  
+            'pattern' => 'admin.pages.*',  
         ],
         [
             'title' => 'Users',
