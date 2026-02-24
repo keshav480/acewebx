@@ -8,7 +8,7 @@
     <meta name="user-id" content="{{ auth()->id() }}">
     <meta name="user-role" content="{{ auth()->user()->role ?? 'user' }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
     <div class="flex min-h-screen">
@@ -26,6 +26,7 @@
             @include('admin.components.footer')
         </div>
     </div>
+    
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </body>
 </html>
