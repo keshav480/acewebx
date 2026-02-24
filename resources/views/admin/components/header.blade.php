@@ -71,7 +71,7 @@
                         </div>
                         
                         @if($headerNotifications->count() > 0)
-                            <a href="#" class="block py-2 text-center text-xs text-blue-600 border-t hover:bg-gray-50">View All</a>
+                            <a href="{{route('admin.users.index')}}" class="block py-2 text-center text-xs text-blue-600 border-t hover:bg-gray-50">View All</a>
                         @endif
                     </div>
                 </div>
