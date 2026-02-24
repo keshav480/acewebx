@@ -37,7 +37,6 @@
                    <a href="{{site_url($page->slug)}}" target="_blank" rel="noopener noreferrer">{{site_url()}}</a><input type="text" name="slug"value="/{{$page->slug}}">
 
                 </div>
-
                 <!-- Content -->
                 <div class="bg-white border border-gray-200 rounded shadow p-6">
                     <label for="content" class="block text-gray-700 font-medium mb-2">Content</label>

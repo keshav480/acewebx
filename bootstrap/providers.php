@@ -5,4 +5,5 @@ return [
     App\Providers\MenuServiceProvider::class,
     App\Providers\NotificationProvider::class,
     App\Providers\PageServiceProvider::class,
+    App\Providers\ShortcodeServiceProvider::class,
 ];

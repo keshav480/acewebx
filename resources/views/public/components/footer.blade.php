@@ -3,11 +3,13 @@
 
         <!-- Company Info -->
         <div>
-            <img src="{{ asset('assets/images/logo-white.png') }}" alt="Acewebx" class="h-10 mb-4">
+            <a href="{{ site_url() }}">
+            <img src="{{site_logo()}}" alt="Acewebx" class="h-10 mb-4">
             <p class="text-sm leading-relaxed">
                 AceWebx is a software development company providing high-quality web,
                 mobile app, and digital marketing solutions worldwide.
             </p>
+            </a>
 
             <!-- Social Icons -->
             <div class="flex space-x-4 mt-4">
@@ -16,7 +18,6 @@
                 <a href="#" class="hover:text-white"><i class="fa-brands fa-instagram"></i></a>
             </div>
         </div>
-
         <!-- Useful Links -->
         <div>
             <h4 class="text-white font-semibold mb-4">Useful Links</h4>

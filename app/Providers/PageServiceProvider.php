@@ -22,12 +22,10 @@ class PageServiceProvider extends ServiceProvider
     public function boot(): void
     {
         View::composer('public.pages.template.default', function ($view) {
-
-            $slug = request()->segment(1); // about
-
+            $slug = request()->segment(1);
             $page = Page::where('slug', $slug)->first();
-
             $view->with('page', $page);
         });
+        
     }
 }

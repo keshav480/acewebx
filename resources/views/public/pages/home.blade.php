@@ -1,5 +1,6 @@
 @extends('public.layouts.app')
 @section('content')
+
    <section class="relative bg-black">
     <img src="{{ asset('public/images/hero.jpg') }}"
          class="absolute inset-0 w-full h-full object-cover opacity-40">
@@ -66,9 +67,7 @@
                     Read More →
                 </a>
             </div>
-
             @endforeach
-
         </div>
     </div>
 </section>

@@ -40,6 +40,7 @@ class PageController extends Controller
     {
         $validated = $request->validate([
             'title' => 'required|string|max:255',
+            'content'=>'nullable',
             'status' => 'required|in:draft,published',
             'order' => 'nullable|integer',
             'meta_title' => 'nullable|string|max:255',
@@ -58,13 +59,14 @@ class PageController extends Controller
         Page::create([
             'title' => $validated['title'],
             'slug' => $slug,
+            'content'=>$validated['content'],
             'status' => $validated['status'],
             'order' => $validated['order'] ?? 1,
             'meta_title' => $validated['meta_title'] ?? null,
             'meta_description' => $validated['meta_description'] ?? null,
             'meta_keywords' => $validated['meta_keywords'] ?? null,
         ]);
-
+        cache()->forget("seo_page_{$slug}");
         return redirect()->route('admin.pages.index')
                          ->with('success', 'Page created successfully.');
 
@@ -85,6 +87,7 @@ class PageController extends Controller
          $validated =  $request->validate([
                'title' => 'required|string|max:255',
                'slug' => 'required|string|max:255|unique:pages,slug,',
+                'content'=>'nullable',
                'status' => 'required|in:draft,published',
                'order' => 'nullable|integer',
                'meta_title' => 'nullable|string|max:255',
@@ -99,13 +102,14 @@ class PageController extends Controller
          $page->update([
             'title' => $validated['title'],
             'slug' => $slug,
+            'content'=>$validated['content'],
             'status' => $validated['status'],
             'order' => $validated['order'] ?? null,
             'meta_title' => $validated['meta_title'] ?? null,
             'meta_description' => $validated['meta_description'] ?? null,
             'meta_keywords' => $validated['meta_keywords'] ?? null,
          ]);
-
+            cache()->forget("seo_page_{$slug}");
         return redirect()->route('admin.pages.index')
                          ->with('success', 'Page updated successfully.');
     }
