@@ -2,18 +2,12 @@
 @section('content')
 @if($page)
     <div class="max-w-7xl mx-auto px-6 py-12">
-        <!-- Page Title -->
         <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-6 text-center">
             {{ $page->title }}
         </h1>
-
-        <!-- Page Content -->
         <div class="prose prose-lg mx-auto text-gray-700">
             {!! $page->content !!}
         </div>
-
-        <!-- Call to Action / Footer Note -->
-
     </div>
 @else
     <div class="text-center py-20">

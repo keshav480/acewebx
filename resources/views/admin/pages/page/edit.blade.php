@@ -80,13 +80,13 @@
                 </div>
 
                 <!-- Featured Image -->
-                <div class="bg-white border border-gray-200 rounded shadow p-4">
+                <!-- <div class="bg-white border border-gray-200 rounded shadow p-4">
                     <h2 class="font-semibold text-gray-700 mb-2">Featured Image</h2>
                     @if($page->featured_image)
                         <img src="{{ Storage::url($page->featured_image) }}" alt="Featured Image" class="mb-2 w-full h-auto">
                     @endif
                     <input type="file" name="featured_image" class="w-full border rounded px-2 py-1">
-                </div>
+                </div> -->
 
             </div>
         </div>
