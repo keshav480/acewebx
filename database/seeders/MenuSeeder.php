@@ -15,10 +15,10 @@ class MenuSeeder extends Seeder
         Menu::create([
             'name' => 'Header Menu',
             'data' => [
-                ['id' => 1, 'title' => 'Home', 'url' => '/', 'parent_id' => null],
-                ['id' => 2, 'title' => 'About', 'url' => '/about', 'parent_id' => null],
-                ['id' => 3, 'title' => 'Services', 'url' => '/services', 'parent_id' => null],
-                ['id' => 4, 'title' => 'Contact', 'url' => '/contact', 'parent_id' => null],
+                ['id' => 1, 'title' => 'Home', 'slug' => '/', 'parent_id' => null],
+                ['id' => 2, 'title' => 'About', 'slug' => '/about', 'parent_id' => null],
+                ['id' => 3, 'title' => 'Services', 'slug' => '/services', 'parent_id' => null],
+                ['id' => 4, 'title' => 'Contact', 'slug' => '/contact', 'parent_id' => null],
             ],
             'settings' => [
                 'auto_add_pages' => false,
@@ -30,8 +30,8 @@ class MenuSeeder extends Seeder
         Menu::create([
             'name' => 'Footer Menu',
             'data' => [
-                ['id' => 5, 'title' => 'Privacy Policy', 'url' => '/privacy', 'parent_id' => null],
-                ['id' => 6, 'title' => 'Terms of Service', 'url' => '/terms', 'parent_id' => null],
+                ['id' => 5, 'title' => 'Privacy Policy', 'slug' => '/privacy', 'parent_id' => null],
+                ['id' => 6, 'title' => 'Terms of Service', 'slug' => '/terms', 'parent_id' => null],
             ],
             'settings' => [
                 'auto_add_pages' => false,
