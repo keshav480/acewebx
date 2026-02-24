@@ -8,12 +8,19 @@
             </a>
             <!-- Navigation -->
             <nav class="hidden md:flex items-center gap-8">
-                <a href="#" class="text-white text-sm font-medium hover:text-white/80">Blogs</a>
-                <a href="#" class="text-white text-sm font-medium hover:text-white/80">Products</a>
-                <a href="#" class="text-white text-sm font-medium hover:text-white/80">Our Services</a>
-                <a href="#" class="text-white text-sm font-medium hover:text-white/80">Portfolio</a>
-                <a href="#" class="text-white text-sm font-medium hover:text-white/80">About Us</a>
-                <a href="#" class="text-white text-sm font-medium hover:text-white/80">Contact Us</a>
+                    @foreach($headerMenus as $menu)
+                        @php
+                            $items = is_array($menu->data)
+                                ? $menu->data
+                                : json_decode($menu->data, true);
+                        @endphp
+                        @foreach($items as $item)
+                                <a href="{{ $item['slug'] }}"class="text-white text-sm font-medium hover:text-white/80">
+                                    {{ $item['title'] }}
+                                </a>
+                            </li>
+                        @endforeach
+                    @endforeach
             </nav>
             <!-- CTA -->
              @guest

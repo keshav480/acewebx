@@ -31,6 +31,7 @@
                         @forelse($pages as $page)
                             <label class="flex items-center">
                                 <input type="checkbox" class="mr-2 page-checkbox" value="{{ $page->id }}">
+                                <input type="hidden" class="mr-2 page-slug" value="{{ $page->slug }}">
                                 <span>{{ $page->title }}</span>
                             </label>
                         @empty
@@ -213,9 +214,15 @@ $(function(){
     $('#addMenuBtn').click(function(){
 
         $('.page-checkbox:checked').each(function(){
+
+            let parent = $(this).closest('label');
+
             menuItems.push({
                 id: $(this).val(),
-                title: $(this).siblings('span').text()
+                title: parent.find('span').text(),
+                slug: parent.find('.page-slug').val(),
+                url: '/' + parent.find('.page-slug').val(),
+                parent_id: null
             });
 
             $(this).prop('checked', false);
