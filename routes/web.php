@@ -9,6 +9,8 @@ use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\admin\MenuController;
 use App\Http\Controllers\admin\PageController;
 
+use App\Http\Controllers\public\PublicPageController;
+
 Route::middleware('guest')->group(function () {
 
     // Login
@@ -23,12 +25,11 @@ Route::middleware('guest')->group(function () {
 });
 
 // Public Home
-Route::get('/', function () {
-    return view('public.pages.home');
-})->name('home');
-Route::get('/profile', function () {
-
-})->name('profile');
+    Route::get('/', function () {
+        return view('public.pages.home');
+    })->name('home');
+    Route::get('/profile', function () {
+    })->name('profile');
 
 Route::prefix('ace-admin')->name('admin.')->middleware(['auth','admin'])->group(function() {
     Route::get('/', [DashboardController::class , 'index'])->name('dashboard');
@@ -62,9 +63,7 @@ Route::prefix('ace-admin')->name('admin.')->middleware(['auth','admin'])->group(
     Route::put('/pages/{id}', [PageController::class, 'update'])->name('pages.update');
     // Delete page
     Route::delete('/pages/{id}', [PageController::class, 'destroy'])->name('pages.destroy');
-
-
-
-
 });
+
  Route::post('/logout', [AuthController::class, 'destroy'])->middleware('auth')->name('logout');
+Route::get('/{slug}', [PublicPageController::class, 'show'])->name('page.show');
