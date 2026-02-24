@@ -6,14 +6,14 @@
     <!-- Page Title -->
     <div class="flex justify-between items-center mb-6">
         <h1 class="text-2xl font-bold text-gray-800">Menus</h1>
-        <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">Manage with Live Preview</button>
+        <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"id="create_menu">Create menu</button>
     </div>
 
     <!-- Tabs -->
     <div class="border-b border-gray-200 mb-6">
         <nav class="flex space-x-4">
             <button class="px-4 py-2 border-b-2 border-blue-600 font-medium text-blue-600">Edit Menus</button>
-            <button class="px-4 py-2 text-gray-600 hover:text-gray-800">Manage Locations</button>
+            <!-- <button class="px-4 py-2 text-gray-600 hover:text-gray-800">Manage Locations</button> -->
         </nav>
     </div>
 
@@ -53,11 +53,24 @@
 
                 <div class="bg-white border border-gray-200 rounded shadow-sm p-6">
                     <h2 class="text-lg font-semibold mb-4">Menu Structure</h2>
+              <select class="text-lg font-semibold mb-4 border border-gray-300" id="menuSelect">
+                <option value="">Select Menu</option>
+
+                @foreach($menus as $menu)
+                    <option value="{{ $menu->id }}"
+                        {{ session('last_menu_id') == $menu->id ? 'selected' : '' }}>
+                        {{ $menu->name }}
+                    </option>
+                @endforeach
+            </select>
+
 
                     <!-- Menu Name -->
-                    <label class="block mb-2 text-gray-700 font-medium">Menu Name</label>
-                    <input type="text" name="name" class="w-full border border-gray-300 rounded px-4 py-2 mb-4" value="header">
-
+                     <div class="hidden"id="menuName_outer">
+                        <label class="block mb-2 text-gray-700 font-medium">Menu Name</label>
+                        <input type="text" name="name" class="w-full border border-gray-300 rounded px-4 py-2 mb-4" id="menuName" value="">
+                           <input type="hidden" name="id" class="w-full border border-gray-300 rounded px-4 py-2 mb-4" id="menu_id" value="">
+                    </div>
                     <!-- Menu Items -->
                     <div class="space-y-2 mb-4" id="menuItemsContainer">
                         <p class="text-gray-500 text-sm">No menu items added</p>
@@ -68,19 +81,23 @@
 
                     <!-- Menu Settings -->
                     <div class="border-t border-gray-200 pt-4">
-                        <h3 class="font-medium mb-2">Menu Settings</h3>
-                        <label class="flex items-center mb-2">
-                            <input type="checkbox" class="mr-2">
-                            <span>Automatically add new top-level pages to this menu</span>
-                        </label>
-                        <label class="flex items-center mb-2">
-                            <input type="checkbox" class="mr-2" checked>
-                            <span>Header</span>
-                        </label>
-                        <label class="flex items-center">
-                            <input type="checkbox" class="mr-2">
-                            <span>Footer</span>
-                        </label>
+                      <h3 class="font-medium mb-2">Menu Settings</h3>
+
+                    <label class="flex items-center mb-2">
+                        <input type="checkbox" name="settings[]" value="auto_add" class="mr-2">
+                        <span>Automatically add new top-level pages to this menu</span>
+                    </label>
+
+                    <label class="flex items-center mb-2">
+                        <input type="checkbox" name="settings[]" value="header" class="mr-2">
+                        <span>Header</span>
+                    </label>
+
+                    <label class="flex items-center">
+                        <input type="checkbox" name="settings[]" value="footer" class="mr-2">
+                        <span>Footer</span>
+                    </label>
+
                     </div>
 
                     <!-- Action Buttons -->
@@ -102,54 +119,166 @@ $(document).ready(function(){
 
     let menuItems = [];
 
-    // Add to Menu button click
+    // =============================
+    // SHOW MENU NAME FIELD
+    // =============================
+    $('#create_menu').click(function(){
+        $('#menuName_outer').removeClass('hidden');
+        $('#menuName').val('');
+        $('#menuSelect').val('');
+        $('#menuItemsContainer').html('');
+        $('#menu_id').val('');
+    });
+
+    // =============================
+    // LOAD MENU WHEN DROPDOWN CHANGES
+    // =============================
+    $('#menuSelect').change(function(){
+
+        let menuId = $(this).val();
+        let selectedText = $(this).find("option:selected").text();
+
+        $('#menuName_outer').removeClass('hidden');
+        $('#menuName').val($.trim(selectedText));
+        $('#menu_id').val($.trim(menuId));
+
+        if(!menuId){
+            menuItems = [];
+            $('#menuItemsContainer').html('<p class="text-gray-500 text-sm">No menu items added</p>');
+            return;
+        }
+
+        $.get('/ace-admin/menu/' + menuId, function(res){
+            menuItems = res.data || [];
+            let settings = res.settings || [];
+            $('#menuItemsContainer').empty();
+            if(menuItems.length === 0){
+                $('#menuItemsContainer').html('<p class="text-gray-500 text-sm">No menu items added</p>');
+            } else {
+                renderMenuItems();
+            }
+            $('#menuData').val(JSON.stringify(menuItems));
+            $('input[name="settings[]"]').prop('checked', false);
+            if(settings){
+              let settings = res.settings || {};
+
+            // uncheck everything first
+            $('input[name="settings[]"]').prop('checked', false);
+
+            // set auto add pages
+            if(settings.auto_add_pages === true){
+                $('input[name="settings[]"][value="auto_add"]').prop('checked', true);
+            }
+
+            // set location
+            if(settings.location){
+                $('input[name="settings[]"][value="'+settings.location+'"]').prop('checked', true);
+            }
+
+            }
+        });
+
+    });
+
+    // =============================
+    // AUTO LOAD SELECTED MENU (IMPORTANT → AFTER EVENT BIND)
+    // =============================
+    if($('#menuSelect').val()){
+        $('#menuSelect').trigger('change');
+    }
+
+    // =============================
+    // ADD MENU ITEM
+    // =============================
     $('#addMenuBtn').click(function(){
+
         $('.page-checkbox:checked').each(function(){
+
             let id = $(this).val();
             let title = $(this).siblings('span').text();
 
-            // Push to menuItems array
-            menuItems.push({id: id, title: title});
+            menuItems.push({
+                id: id,
+                title: title
+            });
 
-            // Add to right panel
-            $('#menuItemsContainer p').remove(); // remove "No menu items" placeholder
-            $('#menuItemsContainer').append(`
-                <div class="border border-gray-300 rounded p-2 flex justify-between items-center">
-                    <span>${title}</span>
-                    <button type="button" class="text-red-600 text-sm removeItemBtn">Remove</button>
-                </div>
-            `);
-
-            // Uncheck the checkbox
             $(this).prop('checked', false);
         });
 
-        // Update hidden input for JSON
+        renderMenuItems();
         $('#menuData').val(JSON.stringify(menuItems));
     });
 
-    // Remove item from right panel
+    // =============================
+    // REMOVE ITEM
+    // =============================
     $('#menuItemsContainer').on('click', '.removeItemBtn', function(){
-        let index = $(this).parent().index();
-        menuItems.splice(index, 1); // remove from array
-        $(this).parent().remove();
 
-        // If empty, add placeholder
-        if(menuItems.length === 0){
-            $('#menuItemsContainer').html('<p class="text-gray-500 text-sm">No menu items added</p>');
+        let index = $(this).closest('div').index();
+        menuItems.splice(index, 1);
+
+        renderMenuItems();
+        $('#menuData').val(JSON.stringify(menuItems));
+    });
+
+    // =============================
+    // DELETE MENU (FIXED LOCATION)
+    // =============================
+    $('#clearMenuBtn').click(function(){
+
+        let menuId = $('#menuSelect').val();
+
+        if(!menuId){
+            alert('Please select a menu first');
+            return;
         }
 
-        // Update hidden input
-        $('#menuData').val(JSON.stringify(menuItems));
+        if(!confirm('Are you sure you want to delete this menu?')){
+            return;
+        }
+
+        $.ajax({
+            url: '/ace-admin/menu/' + menuId,
+            type: 'DELETE',
+            data: {
+                _token: '{{ csrf_token() }}'
+            },
+            success: function(){
+
+                alert('Menu deleted successfully');
+
+                menuItems = [];
+                $('#menuItemsContainer').html('<p class="text-gray-500 text-sm">No menu items added</p>');
+                $('#menuData').val('');
+                $('#menuName').val('');
+                $('#menuSelect option:selected').remove();
+            }
+        });
     });
 
-    // Clear entire menu
-    $('#clearMenuBtn').click(function(){
-        menuItems = [];
-        $('#menuItemsContainer').html('<p class="text-gray-500 text-sm">No menu items added</p>');
-        $('#menuData').val('');
-    });
+    // =============================
+    // RENDER MENU ITEMS (NEW)
+    // =============================
+    function renderMenuItems(){
+
+        $('#menuItemsContainer').empty();
+
+        if(menuItems.length === 0){
+            $('#menuItemsContainer').html('<p class="text-gray-500 text-sm">No menu items added</p>');
+            return;
+        }
+
+        menuItems.forEach(function(item){
+            $('#menuItemsContainer').append(`
+                <div class="border border-gray-300 rounded p-2 flex justify-between items-center">
+                    <span>${item.title}</span>
+                    <button type="button" class="text-red-600 text-sm removeItemBtn">Remove</button>
+                </div>
+            `);
+        });
+    }
 
 });
+
 </script>
 @endsection

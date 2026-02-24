@@ -45,7 +45,10 @@ Route::prefix('ace-admin')->name('admin.')->middleware(['auth','admin'])->group(
 
     Route::get('/menu', [MenuController::class, 'index'])->name('menu');   
     Route::post('/menu/store', [MenuController::class, 'store'])->name('menu.store');   
-    
+    Route::get('/menu/{id}', [MenuController::class, 'getMenu'])->name('menu.get');
+    Route::delete('/menu/{id}', [MenuController::class, 'destroy'])->name('menu.delete');
+
+
     // Pages list
      Route::get('/pages/', [PageController::class, 'index'])->name('pages.index');
     Route::get('/pages/?search', [PageController::class, 'index'])->name('pages');

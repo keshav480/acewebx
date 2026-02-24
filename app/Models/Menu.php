@@ -16,10 +16,12 @@ class Menu extends Model
     protected $fillable = [
         'name',
         'data',
+        'settings'
     ];
 
     // Cast 'data' column to array automatically
     protected $casts = [
         'data' => 'array',
+        'settings' => 'array'
     ];
 }

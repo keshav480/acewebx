@@ -25,26 +25,51 @@ class MenuController extends Controller
     }
 
     // Store a new menu
-    public function store(Request $request)
-    {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'data' => 'required|array', 
-        ]);
-        
-        Menu::create([
-            'name' => $request->name,
-            'data' => $request->data, 
-        ]);
-        return redirect()->route('admin.menu.index')->with('success', 'Menu created successfully.');
-    }
+   public function store(Request $request)
+{
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'data' => 'required|json', 
+    ]);
 
+    $settings = $request->settings ?? [];
+    $formattedSettings = [
+        'location' => in_array('footer', $settings) ? 'footer' : 'header',
+        'auto_add_pages' => in_array('auto_add', $settings),
+    ];
+
+    $menu =  Menu::updateOrCreate(
+        ['id' => $request->id],
+        [
+            'name' => $request->name,
+            'data' => json_decode($request->data, true),
+            'settings' => $formattedSettings
+        ]
+    );
+
+    return redirect()->route('admin.menu')
+        ->with('success', 'Menu created successfully.')->with('last_menu_id', $menu->id);;
+}
     // Show a specific menu
     public function show($id)
     {
         $menu = Menu::findOrFail($id);
         return view('admin.pages.menu.show', compact('menu'));
     }
+        // Get menu data (AJAX)
+        public function getMenu($id)
+        {
+            $menu = Menu::findOrFail($id);
+
+            return response()->json([
+                'id' => $menu->id,
+                'name' => $menu->name,
+                'data' => $menu->data,
+                'settings' => $menu->settings
+            ]);
+        }
+
+
 
     // Show form to edit a menu
     public function edit($id)
@@ -54,30 +79,12 @@ class MenuController extends Controller
         return view('admin.pages.menu.edit', compact('menu', 'pages'));
     }
 
-    // Update a menu
-    public function update(Request $request, $id)
-    {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'data' => 'required|array', // Validate JSON array of menu items
-        ]);
-
-        $menu = Menu::findOrFail($id);
-       
-        $menu->update([
-            'name' => $request->name,
-            'data' => $request->data,
-        ]);
-
-        return redirect()->route('admin.menu.index')->with('success', 'Menu updated successfully.');
-    }
-
     // Delete a menu
     public function destroy($id)
     {
         $menu = Menu::findOrFail($id);
         $menu->delete();
 
-        return redirect()->route('admin.menu.index')->with('success', 'Menu deleted successfully.');
+        return redirect()->route('admin.menu')->with('success', 'Menu deleted successfully.');
     }
 }
