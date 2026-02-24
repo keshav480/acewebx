@@ -5,7 +5,7 @@
 
             <!-- Logo -->
             <a href="{{ route('admin.dashboard') }}" class="flex items-center">
-                <img src="{{ asset('public/images/Logo.svg') }}" alt="Acewebx" class="h-9">
+                <img src="{{site_logo()}}" alt="Acewebx" class="h-9">
                 <span class="ml-2 text-white font-bold text-lg"></span>
             </a>
 

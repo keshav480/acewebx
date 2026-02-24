@@ -34,7 +34,8 @@
                 <div class="bg-white border border-gray-200 rounded shadow p-6">
                     <label for="title" class="block text-gray-700 font-medium mb-2">Title</label>
                     <input type="text" name="title" id="title" value="{{ old('title', $page->title) }}" class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <input type="text"name="slug"value="{{$page->slug}}">
+                   <a href="{{site_url($page->slug)}}" target="_blank" rel="noopener noreferrer">{{site_url()}}</a><input type="text" name="slug"value="/{{$page->slug}}">
+
                 </div>
 
                 <!-- Content -->
