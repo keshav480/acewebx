@@ -44,7 +44,34 @@
                     <textarea name="content" id="content" rows="15"
                               class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">{{ old('content', $page->content) }}</textarea>
                 </div>
+                <!-- SEO Box -->
+                    <div class="bg-white border border-gray-200 rounded shadow p-4">
+                        <h2 class="font-semibold text-gray-700 mb-2">SEO Settings</h2>
 
+                        <!-- Meta Title -->
+                        <div class="mb-4">
+                            <label for="meta_title" class="block text-gray-700 font-medium mb-1">Meta Title</label>
+                            <input type="text" name="meta_title" id="meta_title"
+                                value="{{ old('meta_title',$page->meta_title) }}"
+                                class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+
+                        <!-- Meta Description -->
+                        <div class="mb-4">
+                            <label for="meta_description" class="block text-gray-700 font-medium mb-1">Meta Description</label>
+                            <textarea name="meta_description" id="meta_description" rows="4"
+                                class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">{{ old('meta_description', $page->meta_description) }}</textarea>
+                        </div>
+
+                        <!-- Meta Keywords -->
+                        <div class="mb-4">
+                            <label for="meta_keywords" class="block text-gray-700 font-medium mb-1">Meta Keywords</label>
+                            <input type="text" name="meta_keywords" id="meta_keywords"
+                                value="{{ old('meta_keywords', $page->meta_keywords) }}"
+                                placeholder="keyword1, keyword2, keyword3"
+                                class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                    </div>
             </div>
 
             <!-- Right Column -->

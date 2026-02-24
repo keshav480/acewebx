@@ -6,20 +6,20 @@
     <!-- Page Header -->
     <div class="flex justify-between items-center mb-6">
         <h1 class="text-2xl font-bold">Create New Page</h1>
-        <a href="{{ route('admin.pages.index') }}" 
-           class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded">
-           Back to Pages
+        <a href="{{ route('admin.pages.index') }}"
+            class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded">
+            Back to Pages
         </a>
     </div>
 
     @if ($errors->any())
-        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6">
-            <ul class="list-disc list-inside">
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6">
+        <ul class="list-disc list-inside">
+            @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
     @endif
 
     <form action="{{ route('admin.pages.store') }}" method="POST">
@@ -33,16 +33,43 @@
                 <div class="bg-white border border-gray-200 rounded shadow p-6">
                     <label for="title" class="block text-gray-700 font-medium mb-2">Title</label>
                     <input type="text" name="title" id="title" value="{{ old('title') }}"
-                           class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
                 </div>
 
                 <!-- Content Meta Box -->
                 <div class="bg-white border border-gray-200 rounded shadow p-6">
                     <label for="content" class="block text-gray-700 font-medium mb-2">Content</label>
                     <textarea name="content" id="content" rows="15"
-                              class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">{{ old('content') }}</textarea>
+                        class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">{{ old('content') }}</textarea>
                 </div>
+                <!-- SEO Box -->
+                <div class="bg-white border border-gray-200 rounded shadow p-4">
+                    <h2 class="font-semibold text-gray-700 mb-2">SEO Settings</h2>
 
+                    <!-- Meta Title -->
+                    <div class="mb-4">
+                        <label for="meta_title" class="block text-gray-700 font-medium mb-1">Meta Title</label>
+                        <input type="text" name="meta_title" id="meta_title"
+                            value="{{ old('meta_title') }}"
+                            class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+
+                    <!-- Meta Description -->
+                    <div class="mb-4">
+                        <label for="meta_description" class="block text-gray-700 font-medium mb-1">Meta Description</label>
+                        <textarea name="meta_description" id="meta_description" rows="4"
+                            class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">{{ old('meta_description') }}</textarea>
+                    </div>
+
+                    <!-- Meta Keywords -->
+                    <div class="mb-4">
+                        <label for="meta_keywords" class="block text-gray-700 font-medium mb-1">Meta Keywords</label>
+                        <input type="text" name="meta_keywords" id="meta_keywords"
+                            value="{{ old('meta_keywords') }}"
+                            placeholder="keyword1, keyword2, keyword3"
+                            class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                </div>
             </div>
 
             <!-- Right Column (Sidebar) -->
@@ -65,11 +92,7 @@
                     </button>
                 </div>
 
-                <!-- Featured Image Box -->
-                <!-- <div class="bg-white border border-gray-200 rounded shadow p-4">
-                    <h2 class="font-semibold text-gray-700 mb-2">Featured Image</h2>
-                    <input type="file" name="featured_image" class="w-full border rounded px-2 py-1">
-                </div> -->
+
 
             </div>
         </div>

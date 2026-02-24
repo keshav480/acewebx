@@ -38,29 +38,36 @@ class PageController extends Controller
     // Store new page
     public function store(Request $request)
     {
-         $validated = $request->validate([
+        $validated = $request->validate([
             'title' => 'required|string|max:255',
             'status' => 'required|in:draft,published',
             'order' => 'nullable|integer',
-         ]);
+            'meta_title' => 'nullable|string|max:255',
+            'meta_description' => 'nullable|string',
+            'meta_keywords' => 'nullable|string|max:255',
+        ]);
 
-         // Generate a slug
-         $slug = Str::slug($validated['title']);
-         $count = Page::where('slug', 'LIKE', "{$slug}%")->count();
-            if ($count > 0) {
-               $slug .= '-' . ($count + 1);
-            }
+        // Generate a unique slug
+        $slug = Str::slug($validated['title']);
+        $count = Page::where('slug', 'LIKE', "{$slug}%")->count();
+        if ($count > 0) {
+            $slug .= '-' . ($count + 1);
+        }
 
-            // Create the page
-            Page::create([
-               'title' => $validated['title'],
-               'status' => $validated['status'],
-               'order' => $validated['order'] ?? 1,
-               'slug' => $slug,
-            ]);
+        // Create the page including SEO fields
+        Page::create([
+            'title' => $validated['title'],
+            'slug' => $slug,
+            'status' => $validated['status'],
+            'order' => $validated['order'] ?? 1,
+            'meta_title' => $validated['meta_title'] ?? null,
+            'meta_description' => $validated['meta_description'] ?? null,
+            'meta_keywords' => $validated['meta_keywords'] ?? null,
+        ]);
 
         return redirect()->route('admin.pages.index')
                          ->with('success', 'Page created successfully.');
+
     }
 
     // Show edit form
@@ -77,13 +84,15 @@ class PageController extends Controller
 
          $validated =  $request->validate([
                'title' => 'required|string|max:255',
-               'slug' => 'required|string|max:255|unique:pages,slug,' . $page->id,
+               'slug' => 'required|string|max:255|unique:pages,slug,',
                'status' => 'required|in:draft,published',
                'order' => 'nullable|integer',
+               'meta_title' => 'nullable|string|max:255',
+               'meta_description' => 'nullable|string',
+               'meta_keywords' => 'nullable|string|max:255',
          ]);
-
             $slug = Str::slug($validated['slug']);
-            $count = Page::where('slug', 'LIKE', "{$slug}%")->count();
+            $count = Page::where('slug', 'LIKE', "{$slug}%")->where('id', '!=', $page->id)->count();
             if ($count > 0) {
                $slug .= '-' . ($count + 1);
             }
@@ -92,6 +101,9 @@ class PageController extends Controller
             'slug' => $slug,
             'status' => $validated['status'],
             'order' => $validated['order'] ?? null,
+            'meta_title' => $validated['meta_title'] ?? null,
+            'meta_description' => $validated['meta_description'] ?? null,
+            'meta_keywords' => $validated['meta_keywords'] ?? null,
          ]);
 
         return redirect()->route('admin.pages.index')
