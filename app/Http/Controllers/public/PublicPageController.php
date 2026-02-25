@@ -18,4 +18,7 @@ class PublicPageController extends Controller
 
         return view('public.pages.template.default', compact('page'));
     }
+    public function shortcode(){
+        return 'test';
+    }
 }

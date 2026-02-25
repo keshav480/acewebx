@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use App\Helpers\ShortcodeManager;
 
 class ShortcodeServiceProvider extends ServiceProvider
 {
@@ -19,6 +20,11 @@ class ShortcodeServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+            //  $test=  ShortcodeManager::register('ace_testimonials_slider', function ($attrs) {
+            //     return view('shortcodes.ace_testimonials_slider', $attrs)->render();
+            // });
+          ShortcodeManager::register('ace_testimonials_slider', function ($attrs) {
+             return app(\App\Http\Controllers\public\PublicPageController::class)->shortcode();
+        });
     }
 }

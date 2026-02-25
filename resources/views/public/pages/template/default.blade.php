@@ -6,7 +6,7 @@
             {{ $page->title }}
         </h1>
         <div class="prose prose-lg mx-auto text-gray-700">
-            {!! $page->content !!}
+         {!! \App\Helpers\ShortcodeManager::parse($page->content) !!}
         </div>
     </div>
 @else
