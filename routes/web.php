@@ -8,6 +8,7 @@ use App\Http\Controllers\admin\DashboardController;
 use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\admin\MenuController;
 use App\Http\Controllers\admin\PageController;
+use App\Http\Controllers\Admin\MediaController;
 
 use App\Http\Controllers\public\PublicPageController;
 
@@ -63,6 +64,17 @@ Route::prefix('ace-admin')->name('admin.')->middleware(['auth','admin'])->group(
     Route::put('/pages/{id}', [PageController::class, 'update'])->name('pages.update');
     // Delete page
     Route::delete('/pages/{id}', [PageController::class, 'destroy'])->name('pages.destroy');
+
+
+    // media controller 
+
+    Route::get('/media', [MediaController::class, 'index'])->name('media');
+
+    Route::post('/media/upload', [MediaController::class, 'store'])
+        ->name('media.upload');
+
+    Route::delete('/media/{file}', [MediaController::class, 'destroy'])
+        ->name('media.delete');
 });
 
  Route::post('/logout', [AuthController::class, 'destroy'])->middleware('auth')->name('logout');

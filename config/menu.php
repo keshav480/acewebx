@@ -9,6 +9,14 @@ return [
             'pattern' => 'admin.dashboard',
         ],
         [
+            'title'   => 'Media',
+            'route'   => 'admin.media',
+            'icon'    => 'fa fa-image',   
+            'pattern' => 'admin.media.*',
+        ],
+
+
+        [
             'title' => 'Pages',
             'route' => 'admin.pages', 
             'icon'  => 'fa fa-file',       
