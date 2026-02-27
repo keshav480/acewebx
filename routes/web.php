@@ -3,11 +3,11 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\Auth\AuthController;
-use App\Http\Controllers\admin\SettingController;
-use App\Http\Controllers\admin\DashboardController;
-use App\Http\Controllers\admin\UserController;
-use App\Http\Controllers\admin\MenuController;
-use App\Http\Controllers\admin\PageController;
+use App\Http\Controllers\Admin\SettingController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\MenuController;
+use App\Http\Controllers\Admin\PageController;
 use App\Http\Controllers\Admin\MediaController;
 
 use App\Http\Controllers\public\PublicPageController;
