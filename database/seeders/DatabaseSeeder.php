@@ -19,6 +19,8 @@ class DatabaseSeeder extends Seeder
         $this->call(UsersTableSeeder::class);
         $this->call([PageSeeder::class,]);
         $this->call([MenuSeeder::class,]);
+        $this->call([RoleSeeder::class,]);
+        $this->call([PermissionSeeder::class]); 
         User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',

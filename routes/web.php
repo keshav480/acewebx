@@ -3,28 +3,26 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\Auth\AuthController;
-use App\Http\Controllers\admin\SettingController;
-use App\Http\Controllers\admin\DashboardController;
-use App\Http\Controllers\admin\UserController;
-use App\Http\Controllers\admin\MenuController;
-use App\Http\Controllers\admin\PageController;
+use App\Http\Controllers\Admin\SettingController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\MenuController;
+use App\Http\Controllers\Admin\PageController;
 use App\Http\Controllers\Admin\MediaController;
+use App\Http\Controllers\Admin\RolesController;
 
 use App\Http\Controllers\public\PublicPageController;
 
 Route::middleware('guest')->group(function () {
-
     // Login
     Route::get('login', [AuthController::class, 'showLoginForm'])->name('login');
     Route::post('login', [AuthController::class, 'login']);
-
     // Register
     Route::get('register', [AuthController::class, 'showRegistrationForm'])->name('register');
     Route::post('register', [AuthController::class, 'register']);   
-    
     Route::get('/cancel-otp', [AuthController::class, 'cancelOtp'])->name('cancel.otp');
 });
-
+  
 // Public Home
     Route::get('/', function () {
         return view('public.pages.home');
@@ -33,15 +31,26 @@ Route::middleware('guest')->group(function () {
     })->name('profile');
 
 Route::prefix('ace-admin')->name('admin.')->middleware(['auth','admin'])->group(function() {
+
+    
     Route::get('/', [DashboardController::class , 'index'])->name('dashboard');
     Route::get('/dashboard', function () {
         return view('admin.pages.dashboard');
     });
+  
     // Users
     Route::get('/users', [UserController::class, 'index'])->name('users.index');
     Route::get('/users/{id}', [UserController::class, 'show'])->name('users.show');
     Route::put('/users/{id}', [UserController::class, 'update'])->name('users.update');
+    
+    Route::get('/roles', [RolesController::class, 'index'])->name('roles.index');
+    Route::get('/roles/create', [RolesController::class, 'create'])->name('roles.create');
+    Route::post('/roles/store', [RolesController::class, 'store'])->name('roles.store');
+    Route::get('/roles/edit/{id}', [RolesController::class, 'edit'])->name('roles.edit');
+    Route::put('/roles/update/{id}', [RolesController::class, 'update'])->name('roles.update');
+    Route::delete('/roles/{id}', [RolesController::class, 'destroy'])->name('roles.destroy');
     // Settings
+
     Route::get('/settings', [SettingController::class, 'index'])->name('settings');
     Route::post('/settings', [SettingController::class, 'store'])->name('settings.store');    
 
