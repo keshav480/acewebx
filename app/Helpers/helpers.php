@@ -1,6 +1,9 @@
 <?php
 use App\Models\Setting;
 use App\Models\Page;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\DB;
 
 
 if (!function_exists('setting')) {
@@ -48,5 +51,21 @@ if (!function_exists('seo_meta')) {
         return $field ? ($page->$field ?? null) : $page;
     }
 }
+if (!function_exists('has_role_permission')) {
+    function has_role_permission(string $role, string $permission): bool
+    {
+        $roleId = \Spatie\Permission\Models\Role::where('name', $role)->pluck('id')->first();
+        if (!$roleId) return false;
+
+        $permissionId = \Spatie\Permission\Models\Permission::where('name', $permission)->pluck('id')->first();
+        if (!$permissionId) return false;
+
+        return \Illuminate\Support\Facades\DB::table('role_has_permissions')
+            ->where('role_id', $roleId)
+            ->where('permission_id', $permissionId)
+            ->exists();
+    }
+}
+
 
 
