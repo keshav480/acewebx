@@ -80,6 +80,7 @@ Route::prefix('ace-admin')->name('admin.')->middleware(['auth','admin'])->group(
     Route::delete('/media/{file}', [MediaController::class, 'destroy'])->name('media.delete');
 
     Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
+      Route::get('/chat/{id}', [ChatController::class, 'show'])->name('chat.show');
     
     });
 
