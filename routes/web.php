@@ -84,10 +84,9 @@ Route::prefix('ace-admin')->name('admin.')->middleware(['auth','admin'])->group(
     Route::get('/chat/{id}', [ChatController::class, 'show'])->name('chat.show');
     Route::post('/chat/send/', [ChatController::class, 'send'])->name('chat.send');
 
-
-
-    
 });
 
  Route::post('/logout', [AuthController::class, 'destroy'])->middleware('auth')->name('logout');
 Route::get('/{slug}', [PublicPageController::class, 'show'])->name('page.show');
+
+
