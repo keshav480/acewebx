@@ -42,10 +42,17 @@
             {{-- Role --}}
             <div class="mb-4">
                 <label class="block text-gray-700 mb-2">Role</label>
-                <select name="role" class="w-full border p-2 rounded">
-                    <option value="user" {{ $user->role == 'user' ? 'selected' : '' }}>User</option>
-                    <option value="admin" {{ $user->role == 'admin' ? 'selected' : '' }}>Admin</option>
-                </select>
+                 
+            <select name="role" class="w-full border p-2 rounded">
+                @foreach($roles as $value => $label)
+              
+                    <option value="{{ $value }}"
+                        {{ $user->role == $value ? 'selected' : '' }}>
+                        {{ ucfirst($label) }}
+                    </option>
+                @endforeach
+            </select>
+
             </div>
 
             {{-- Password --}}

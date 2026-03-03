@@ -98,9 +98,16 @@
                             <a href="{{ route('admin.users.show', ['id' => $user->id]) }}"class="px-3 py-1 bg-yellow-500 text-white text-sm rounded hover:bg-yellow-600">
                                 Edit
                             </a>
-                            <button class="px-3 py-1 bg-red-500 text-white text-sm rounded hover:bg-red-600">
-                                Delete
-                            </button>
+                            <!-- Delete Button -->
+                                <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" class="inline-block"
+                                    onsubmit="return confirm('Are you sure you want to delete this user?');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit"
+                                            class="px-3 py-1 bg-red-500 text-white text-sm rounded hover:bg-red-600">
+                                        Delete
+                                    </button>
+                                </form>
                         </td>
                     </tr>
                     @empty

@@ -9,7 +9,7 @@ class RoleSeeder extends Seeder
 {
     public function run(): void
     {
-        $roles = ['Admin', 'User', 'Manager'];
+        $roles = ['admin', 'user', 'manager'];
 
         foreach ($roles as $roleName) {
             // firstOrCreate avoids duplicates

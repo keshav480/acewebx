@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\hash;
+use Spatie\Permission\Models\Role;
+
 
 class UserController extends Controller
 {
@@ -26,8 +28,10 @@ public function index()
     return view('admin.pages.users.users', compact('users'));
 }
 public function show($id){
-   $user = User::findOrFail($id);
-    return view('admin.pages.users.edit', compact('user'));
+  $roles = Role::pluck('name', 'name');
+  $user = User::with('roles')->findOrFail($id);
+
+    return view('admin.pages.users.edit', compact('user', 'roles'));
 }
 
 public function update(Request $request, $id)
@@ -50,5 +54,14 @@ public function update(Request $request, $id)
     return redirect()
         ->route('admin.users.index')
         ->with('success', 'User updated successfully');
+}
+public function destroy($id)
+{
+    $user = User::findOrFail($id);
+    $user->delete();
+
+    return redirect()
+        ->route('admin.users.index')
+        ->with('success', 'User deleted successfully');
 }
 }

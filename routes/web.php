@@ -43,6 +43,7 @@ Route::prefix('ace-admin')->name('admin.')->middleware(['auth','admin'])->group(
     Route::get('/users', [UserController::class, 'index'])->name('users.index');
     Route::get('/users/{id}', [UserController::class, 'show'])->name('users.show');
     Route::put('/users/{id}', [UserController::class, 'update'])->name('users.update');
+    Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
     
     Route::get('/roles', [RolesController::class, 'index'])->name('roles.index');
     Route::get('/roles/create', [RolesController::class, 'create'])->name('roles.create');
@@ -80,9 +81,10 @@ Route::prefix('ace-admin')->name('admin.')->middleware(['auth','admin'])->group(
     Route::delete('/media/{file}', [MediaController::class, 'destroy'])->name('media.delete');
 
     Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
-      Route::get('/chat/{id}', [ChatController::class, 'show'])->name('chat.show');
-    
-    });
+    Route::get('/chat/{id}', [ChatController::class, 'show'])->name('chat.show');
+    Route::post('/chat/send/', [ChatController::class, 'send'])->name('chat.send');
+
+});
 
  Route::post('/logout', [AuthController::class, 'destroy'])->middleware('auth')->name('logout');
 Route::get('/{slug}', [PublicPageController::class, 'show'])->name('page.show');

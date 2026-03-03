@@ -261,3 +261,34 @@ $(function(){
 
 });
 // menu js End
+
+
+// chat js Start
+ let userId = document.querySelector('meta[name="user-id"]')?.content;
+window.Echo.private('chat.' + userId)
+    .listen('MessageSent', (e) => {
+
+        let messageBox = document.querySelector('#messages');
+
+        let html = `
+            <div class="flex items-start gap-2">
+                <div class="bg-white px-4 py-2 rounded-2xl shadow text-sm max-w-xs">
+                    ${e.message.body}
+                </div>
+            </div>
+        `;
+
+        messageBox.insertAdjacentHTML('beforeend', html);
+    });
+
+
+$(function(){
+    $('#chatSearch').on('input', function(){
+        let query = $(this).val().toLowerCase();
+        $('#chatList .chat-item').each(function(){
+            let name = $(this).find('h3').text().toLowerCase();
+            $(this).toggle(name.includes(query));
+        });
+    });
+});
+// chat js End 
