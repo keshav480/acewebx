@@ -2,6 +2,7 @@
 use App\Models\Setting;
 use App\Models\Page;
 
+
 if (!function_exists('setting')) {
     function setting($key, $default = null)
     {
@@ -47,3 +48,5 @@ if (!function_exists('seo_meta')) {
         return $field ? ($page->$field ?? null) : $page;
     }
 }
+
+
