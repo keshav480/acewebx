@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
+use App\Models\User;
 
 class PermissionSeeder extends Seeder
 {
@@ -45,5 +46,12 @@ class PermissionSeeder extends Seeder
         $adminRole->syncPermissions($allPermissions);
 
         $this->command->info('Admin role assigned with all permissions.');
+
+        // Assign admin role to admin user
+        $adminUser = User::where('email', 'acewebx@yopmail.com')->first();
+        if ($adminUser) {
+            $adminUser->assignRole($adminRole);
+            $this->command->info('Admin role assigned to admin user.');
+        }
     }
 }

@@ -15,7 +15,7 @@ class UsersTableSeeder extends Seeder
             ['email' => 'acewebx@yopmail.com'], 
             [
                 'name' => 'Admin User',
-                'password' => 'password',
+                'password' => Hash::make('password'),
                 'role' => 'admin',
             ]
         );
@@ -25,7 +25,7 @@ class UsersTableSeeder extends Seeder
             ['email' => 'user@example.com'],
             [
                 'name' => 'Regular User',
-                'password' => 'password',
+                'password' => Hash::make('password'),
                 'role' => 'user',
             ]
         );

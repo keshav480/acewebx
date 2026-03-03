@@ -57,6 +57,14 @@ return [
             'pattern' => 'admin.menu',
             'permissions' => ['view menu','create menu','update menu','delete menu']
         ],
+        [
+            'title' => 'Chat',
+            'route' => 'admin.chat.index',
+            'icon'  => 'fa fa-comments',
+            'pattern' => 'admin.chat.*',
+            'permissions' => ['view chat','create chat','update chat','delete chat'],
+        ],
+
         
 
     ],

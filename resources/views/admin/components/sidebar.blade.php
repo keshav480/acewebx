@@ -10,7 +10,7 @@
                     $canView = false;
                     if(isset($item['permissions']) && is_array($item['permissions'])) {
                         foreach($item['permissions'] as $permission) {
-                            if( $user = auth()->user()->hasPermissionTo($permission)) {
+                            if(auth()->check() && auth()->user()->hasPermissionTo($permission)) {
                                 $canView = true;
                                 break; 
                             }

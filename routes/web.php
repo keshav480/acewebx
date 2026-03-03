@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\PageController;
 use App\Http\Controllers\Admin\MediaController;
 use App\Http\Controllers\Admin\RolesController;
+use App\Http\Controllers\Admin\ChatController;
 
 use App\Http\Controllers\public\PublicPageController;
 
@@ -53,12 +54,11 @@ Route::prefix('ace-admin')->name('admin.')->middleware(['auth','admin'])->group(
 
     Route::get('/settings', [SettingController::class, 'index'])->name('settings');
     Route::post('/settings', [SettingController::class, 'store'])->name('settings.store');    
-
+    // Menu
     Route::get('/menu', [MenuController::class, 'index'])->name('menu');   
     Route::post('/menu/store', [MenuController::class, 'store'])->name('menu.store');   
     Route::get('/menu/{id}', [MenuController::class, 'getMenu'])->name('menu.get');
     Route::delete('/menu/{id}', [MenuController::class, 'destroy'])->name('menu.delete');
-
 
     // Pages list
      Route::get('/pages/', [PageController::class, 'index'])->name('pages.index');
@@ -74,17 +74,14 @@ Route::prefix('ace-admin')->name('admin.')->middleware(['auth','admin'])->group(
     // Delete page
     Route::delete('/pages/{id}', [PageController::class, 'destroy'])->name('pages.destroy');
 
-
     // media controller 
-
     Route::get('/media', [MediaController::class, 'index'])->name('media');
+    Route::post('/media/upload', [MediaController::class, 'store'])->name('media.upload');
+    Route::delete('/media/{file}', [MediaController::class, 'destroy'])->name('media.delete');
 
-    Route::post('/media/upload', [MediaController::class, 'store'])
-        ->name('media.upload');
-
-    Route::delete('/media/{file}', [MediaController::class, 'destroy'])
-        ->name('media.delete');
-});
+    Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
+    
+    });
 
  Route::post('/logout', [AuthController::class, 'destroy'])->middleware('auth')->name('logout');
 Route::get('/{slug}', [PublicPageController::class, 'show'])->name('page.show');
