@@ -63,8 +63,8 @@ return [
 
     'header' => [
         [
-            'title' => 'Dashboard',
-            'route' => 'admin.dashboard',
+            'title' => 'Visit Site',
+            'route' => 'home',
             'icon'  => 'fa fa-home',
             'pattern' => 'admin.dashboard',
         ],
